@@ -1,4 +1,4 @@
-package ua.com.juja.sqlweb.control.commands.control.commands;
+package ua.com.juja.sqlweb.control.commands;
 
 import org.junit.AfterClass;
 import org.junit.Before;
