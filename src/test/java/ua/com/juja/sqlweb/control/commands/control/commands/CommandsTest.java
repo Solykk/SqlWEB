@@ -1,12 +1,15 @@
-package ua.com.juja.sqlcmd.control.commands;
+package ua.com.juja.sqlweb.control.commands.control.commands;
 
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import ua.com.juja.sqlcmd.model.DatabaseManager;
-import ua.com.juja.sqlcmd.model.JDBCDatabaseManager;
-import ua.com.juja.sqlcmd.service.*;
+import ua.com.juja.sqlweb.control.commands.*;
+import ua.com.juja.sqlweb.model.DatabaseManager;
+import ua.com.juja.sqlweb.model.JDBCDatabaseManager;
+import ua.com.juja.sqlweb.service.*;
+import ua.com.juja.sqlweb.service.DropAllHelper;
+import ua.com.juja.sqlweb.service.ViewImpl;
 
 import java.sql.SQLException;
 

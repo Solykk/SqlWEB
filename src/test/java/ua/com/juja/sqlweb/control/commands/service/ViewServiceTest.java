@@ -1,4 +1,4 @@
-package ua.com.juja.sqlcmd.service;
+package ua.com.juja.sqlweb.service;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,19 +7,19 @@ import static org.junit.Assert.assertEquals;
 
 public class ViewServiceTest {
 
-    private ViewImpl viewImpl;
+    private ua.com.juja.sqlweb.service.ViewImpl viewImpl;
     private ViewService viewService = new ViewService();
 
     @Before
     public void start(){
-        viewImpl = new ViewImpl();
+        viewImpl = new ua.com.juja.sqlweb.service.ViewImpl();
         viewService.setView(viewImpl);
     }
 
     @Test
     public void test_greeting(){
         viewService.greeting();
-        assertEquals("\tВас приветствует приложение SqlCMD\n" +
+        assertEquals("\tВас приветствует приложение sqlweb\n" +
                 "Пожалуйста, введите данные для подключения к базе данных в формате: connect|username|password\n",
                 viewImpl.getOut());
         viewImpl.setOut("");

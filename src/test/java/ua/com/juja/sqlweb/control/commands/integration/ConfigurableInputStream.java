@@ -1,4 +1,4 @@
-package ua.com.juja.sqlcmd.integration;
+package ua.com.juja.sqlweb.integration;
 
 import java.io.IOException;
 import java.io.InputStream;

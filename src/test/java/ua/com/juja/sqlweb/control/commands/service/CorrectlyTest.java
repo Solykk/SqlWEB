@@ -1,4 +1,4 @@
-package ua.com.juja.sqlcmd.service;
+package ua.com.juja.sqlweb.service;
 
 import org.junit.Before;
 import org.junit.Test;

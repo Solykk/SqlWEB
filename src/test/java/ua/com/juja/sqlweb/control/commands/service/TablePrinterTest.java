@@ -1,11 +1,11 @@
-package ua.com.juja.sqlcmd.service;
+package ua.com.juja.sqlweb.service;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ua.com.juja.sqlcmd.model.ColumnData;
-import ua.com.juja.sqlcmd.model.Table;
-import ua.com.juja.sqlcmd.view.Console;
+import ua.com.juja.sqlweb.model.ColumnData;
+import ua.com.juja.sqlweb.model.Table;
+import ua.com.juja.sqlweb.view.Console;
 
 import java.util.ArrayList;
 

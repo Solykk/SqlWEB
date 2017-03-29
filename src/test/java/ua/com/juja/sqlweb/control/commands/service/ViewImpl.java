@@ -1,6 +1,6 @@
-package ua.com.juja.sqlcmd.service;
+package ua.com.juja.sqlweb.service;
 
-import ua.com.juja.sqlcmd.view.View;
+import ua.com.juja.sqlweb.view.View;
 
 import java.util.ArrayList;
 
