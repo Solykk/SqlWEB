@@ -27,26 +27,7 @@ public class Insert implements Command {
         return description;
     }
 
-//    private DatabaseManager manager;
-//    private View view;
-//    private ViewService viewService;
-//    private Correctly correctly;
-//    private SettingsHelper settingsHelper;
-//    private final int parametersCount = 4;
-//
-//    public Insert(DatabaseManager manager, View view, Services services) {
-//        this.manager = manager;
-//        this.view = view;
-//        this.viewService = services.getViewService();
-//        this.correctly = services.getCorrectly();
-//        this.settingsHelper = services.getSettingsHelper();
-//    }
-//
-//    @Override
-//    public boolean isProcessed(String command) {
-//        return command.toLowerCase().startsWith("insert|");
-//    }
-//
+
 //    @Override
 //    public void process(String command) {
 //

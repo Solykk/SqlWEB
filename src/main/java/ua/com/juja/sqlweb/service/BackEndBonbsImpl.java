@@ -25,7 +25,73 @@ public class BackEndBonbsImpl implements BackEndBonbs{
     }
 
     @Override
+    public Table tables(DatabaseManager manager, String tableName) throws SQLException {
+        return manager.getTableNames();
+    }
+
+    @Override
+    public Table columns(DatabaseManager manager, String tableName) throws SQLException {
+        return manager.getColumnNames(tableName);
+    }
+
+    @Override
+    public Table tableType(DatabaseManager manager, String tableName) throws SQLException {
+        return manager.getAllTypeColumns(tableName);
+    }
+
+    @Override
+    public Table columnType(DatabaseManager manager, String tableName, String columnName) throws SQLException {
+        return manager.getTypeColumn(tableName, columnName);
+    }
+
+    @Override
     public Table find(DatabaseManager manager, String tableName) throws SQLException {
         return manager.read(tableName);
     }
+
+    @Override
+    public Table findSettings(DatabaseManager manager, String tableName, ArrayList<String[]> settings) throws SQLException {
+        return manager.readSet(tableName, settings);
+    }
+
+    @Override
+    public void clear(DatabaseManager manager, String tableName) throws SQLException {
+        manager.clear(tableName);
+    }
+
+    @Override
+    public void create(DatabaseManager manager, String tableName, ArrayList<String> settings, String columnNamePK, Long startWith) throws SQLException {
+
+    }
+
+    @Override
+    public void delete(DatabaseManager manager, String tableName, ArrayList<String[]> settings) throws SQLException {
+        manager.delete(tableName,settings);
+    }
+
+    @Override
+    public void drop(DatabaseManager manager, String tableName) throws SQLException {
+        manager.drop(tableName);
+    }
+
+    @Override
+    public void insert(DatabaseManager manager, String tableName, ArrayList<String[]> settings, boolean isKey) throws SQLException {
+        manager.insert(tableName, settings, isKey);
+    }
+
+    @Override
+    public void update(DatabaseManager manager, String tableName, ArrayList<String[]> forUpdate, ArrayList<String[]> howUpdate) throws SQLException {
+        manager.update(tableName, forUpdate, howUpdate);
+    }
+
+    @Override
+    public Table redQuery(DatabaseManager manager, String query) throws SQLException {
+        return manager.readQuery(query);
+    }
+
+    @Override
+    public void cudQuery(DatabaseManager manager, String query) throws SQLException {
+        manager.cudQuery(query);
+    }
+
 }

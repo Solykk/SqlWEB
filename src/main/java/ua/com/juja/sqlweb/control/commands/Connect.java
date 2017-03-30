@@ -1,12 +1,6 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.model.DatabaseManager;
-import ua.com.juja.sqlweb.service.Correctly;
 import ua.com.juja.sqlweb.service.HelpList;
-import ua.com.juja.sqlweb.service.Services;
-import ua.com.juja.sqlweb.service.ViewService;
-
-import java.sql.SQLException;
 
 public class Connect implements Command {
 
@@ -28,11 +22,4 @@ public class Connect implements Command {
         return description;
     }
 
-//        try {
-//            manager.connect(userName, password);
-//            viewService.connectComTry();
-//        } catch (SQLException e) {
-//            viewService.connectComCatch(e.getMessage());
-//        }
-//    }
 }
