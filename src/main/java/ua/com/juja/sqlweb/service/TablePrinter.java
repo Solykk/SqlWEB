@@ -1,20 +1,12 @@
 package ua.com.juja.sqlweb.service;
 
 import ua.com.juja.sqlweb.model.Table;
-import ua.com.juja.sqlweb.view.View;
 
 import java.util.ArrayList;
 
 public class TablePrinter {
 
-    private View view;
-    private final int sleepTime = 5;
-
-    public void setView(View view) {
-        this.view = view;
-    }
-
-    public  String  printTable(Table table){
+    public  String tableToString (Table table){
 
         if(table == null) { return ""; }
 
@@ -28,30 +20,30 @@ public class TablePrinter {
         char [] reBuildTN = table.getTableName().toCharArray();
         reBuilder(containerTN, reBuildTN);
 
-        printLine(tableString, line);
+        lineString(tableString, line);
 
-        printTableName(tableString, containerTN);
+        tableNameString(tableString, containerTN);
 
-        printLine(tableString, line);
+        lineString(tableString, line);
 
-        printColumnName(table, tableString, maxLength);
+        columnNameString(table, tableString, maxLength);
 
-        printLine(tableString, line);
+        lineString(tableString, line);
 
-        printValue(table, tableString, maxLength);
+        valueString(table, tableString, maxLength);
 
-        printLine(tableString, line);
+        lineString(tableString, line);
 
         return tableString.toString();
     }
 
-    private void printTableName(StringBuilder tableString, char[] containerTN) {
-        view.write('|' + new String(containerTN) + '|');
+    private void tableNameString(StringBuilder tableString, char[] containerTN) {
+
         tableString.append('|' + new String(containerTN) + '|' + "\n");
-        sleeper(sleepTime);
+
     }
 
-    private void printColumnName(Table table, StringBuilder tableString, ArrayList<Integer> maxLength) {
+    private void columnNameString(Table table, StringBuilder tableString, ArrayList<Integer> maxLength) {
         for (int i = 0; i < table.getTableData().size(); i++){
 
             String columnName = table.getTableData().get(i).columnName();
@@ -62,13 +54,12 @@ public class TablePrinter {
             reBuilder(containerCN, reBuildCN);
 
             printData(table, tableString, i, containerCN);
-            sleeper(sleepTime);
         }
 
         lineBreak(tableString);
     }
 
-    private void printValue(Table table, StringBuilder tableString, ArrayList<Integer> maxLength) {
+    private void valueString(Table table, StringBuilder tableString, ArrayList<Integer> maxLength) {
         for (int i = 0; i < table.getTableData().get(0).getValue().size(); i++){
 
             for (int j = 0; j < table.getTableData().size(); j++) {
@@ -82,7 +73,6 @@ public class TablePrinter {
                 reBuilder(containerDV, reBuildDV);
 
                 printData(table, tableString, j, containerDV);
-                sleeper(sleepTime);
 
             }
 
@@ -90,23 +80,19 @@ public class TablePrinter {
         }
     }
 
-    private void printLine(StringBuilder tableString, char[] line) {
-        view.write(new String(line));
+    private void lineString(StringBuilder tableString, char[] line) {
         tableString.append(new String(line) + "\n");
     }
 
     private void printData(Table table, StringBuilder tableString, int index, char[] container) {
         if(index == table.getTableData().size() - 1){
-            System.out.print('|' + new String(container) + '|');
             tableString.append('|' + new String(container) + '|');
         } else {
-            System.out.print('|' + new String(container));
             tableString.append('|' + new String(container));
         }
     }
 
     private void lineBreak(StringBuilder tableString) {
-        view.write("");
         tableString.append("\n");
     }
 
@@ -189,11 +175,4 @@ public class TablePrinter {
         return string;
     }
 
-    private void sleeper(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }

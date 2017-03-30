@@ -7,7 +7,7 @@ import ua.com.juja.sqlweb.model.Table;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface BackEndBonbs {
+public interface BackEndTie {
 
     ArrayList<Command> commandsList();
 

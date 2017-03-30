@@ -1,5 +1,8 @@
 package ua.com.juja.sqlweb.control.web;
 
+import ua.com.juja.sqlweb.service.BackEndTie;
+import ua.com.juja.sqlweb.service.BackEndTieImpl;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class MainServlet extends HttpServlet {
+
+    private BackEndTie backEndTie;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        backEndTie = new BackEndTieImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

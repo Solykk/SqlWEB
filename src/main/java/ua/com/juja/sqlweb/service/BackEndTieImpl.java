@@ -9,7 +9,7 @@ import ua.com.juja.sqlweb.model.Table;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class BackEndBonbsImpl implements BackEndBonbs{
+public class BackEndTieImpl implements BackEndTie {
 
     @Override
     public ArrayList<Command> commandsList() {

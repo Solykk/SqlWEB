@@ -11,7 +11,6 @@ public class Services {
 
     public void setView(View view) {
         this.viewService.setView(view);
-        this.tablePrinter.setView(view);
     }
 
     public ViewService getViewService() {
