@@ -14,10 +14,6 @@ public class CommandsList {
     public CommandsList(View view, DatabaseManager manager, Services services){
         this.commands = new ArrayList<>();
         commands.add(new Connect(manager, services));
-        commands.add(new Help(view));
-        commands.add(new Exit(view));
-        commands.add(new History(view));
-        commands.add(new IsConnect(manager, view));
         commands.add(new Tables(manager, services));
         commands.add(new Columns(manager, services));
         commands.add(new TableType(manager, services));
@@ -33,7 +29,7 @@ public class CommandsList {
         commands.add(new Update(manager, services));
         commands.add(new ReadQuery(manager, services));
         commands.add(new CudQuery(manager, services));
-        commands.add(new Unsupported(view));
+        commands.add(new History(view));
     }
 
     public ArrayList<Command> getCommands() {
