@@ -9,17 +9,15 @@ import java.util.Locale;
 public class  JDBCDatabaseManager implements DatabaseManager{
 
     private Connection connection;
-    private final String url;
     private final Query query = new Query();
 
     public JDBCDatabaseManager(){
         Locale.setDefault(Locale.ENGLISH);
-        url = "jdbc:oracle:thin:/@localhost:1521:XE";
         this.connection = null;
     }
 
     @Override
-    public void connect(String userName, String dbPassword) throws SQLException{
+    public void connect(String ipAddress, String userName, String dbPassword) throws SQLException{
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
@@ -27,6 +25,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
         }
 
         try {
+            String url = "jdbc:oracle:thin:/@" + ipAddress + ":1521:XE";
             connection = DriverManager.getConnection(url, userName, dbPassword);
         } catch (SQLException e) {
             connection = null;

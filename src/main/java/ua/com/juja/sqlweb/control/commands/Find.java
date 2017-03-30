@@ -1,40 +1,55 @@
 package ua.com.juja.sqlweb.control.commands;
 
 import ua.com.juja.sqlweb.model.DatabaseManager;
-import ua.com.juja.sqlweb.service.Correctly;
-import ua.com.juja.sqlweb.service.Services;
-import ua.com.juja.sqlweb.service.TablePrinter;
-import ua.com.juja.sqlweb.service.ViewService;
+import ua.com.juja.sqlweb.service.*;
 
 public class Find implements Command {
 
-    private DatabaseManager manager;
-    private ViewService viewService;
-    private Correctly correctly;
-    private TablePrinter tablePrinter;
+    private String commandName;
+    private String description;
 
-    public Find(DatabaseManager manager, Services services) {
-        this.manager = manager;
-        this.viewService = services.getViewService();
-        this.correctly = services.getCorrectly();
-        this.tablePrinter = services.getTablePrinter();
+    public Find(HelpList helpList) {
+        this.commandName = "Find";
+        this.description = helpList.find;
     }
 
     @Override
-    public boolean isProcessed(String command) {
-        return command.toLowerCase().startsWith("find|");
+    public String getCommandName() {
+        return commandName;
     }
 
     @Override
-    public void process(String command) {
-
-        String tableName = correctly.expectedTwo(command);
-
-        try {
-            tablePrinter.printTable(manager.read(tableName));
-            viewService.findComTry(tableName);
-        } catch (Exception e) {
-            viewService.findComCatch(tableName, e.getMessage());
-        }
+    public String getDescription() {
+        return description;
     }
+
+//    private DatabaseManager manager;
+//    private ViewService viewService;
+//    private Correctly correctly;
+//    private TablePrinter tablePrinter;
+//
+//    public Find(DatabaseManager manager, Services services) {
+//        this.manager = manager;
+//        this.viewService = services.getViewService();
+//        this.correctly = services.getCorrectly();
+//        this.tablePrinter = services.getTablePrinter();
+//    }
+//
+//    @Override
+//    public boolean isProcessed(String command) {
+//        return command.toLowerCase().startsWith("find|");
+//    }
+//
+//    @Override
+//    public void process(String command) {
+//
+//        String tableName = correctly.expectedTwo(command);
+//
+//        try {
+//            tablePrinter.printTable(manager.read(tableName));
+//            viewService.findComTry(tableName);
+//        } catch (Exception e) {
+//            viewService.findComCatch(tableName, e.getMessage());
+//        }
+//    }
 }

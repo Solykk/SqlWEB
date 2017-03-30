@@ -1,9 +1,7 @@
 package ua.com.juja.sqlweb.control;
 
 import ua.com.juja.sqlweb.control.commands.*;
-import ua.com.juja.sqlweb.model.DatabaseManager;
-import ua.com.juja.sqlweb.service.Services;
-import ua.com.juja.sqlweb.view.View;
+import ua.com.juja.sqlweb.service.HelpList;
 
 import java.util.ArrayList;
 
@@ -11,27 +9,26 @@ public class CommandsList {
 
     private ArrayList<Command> commands;
 
-    public CommandsList(View view, DatabaseManager manager, Services services){
+    public CommandsList(HelpList helpList){
         this.commands = new ArrayList<>();
-        commands.add(new Connect(manager, services));
-        commands.add(new Tables(manager, services));
-        commands.add(new Columns(manager, services));
-        commands.add(new TableType(manager, services));
-        commands.add(new ColumnType(manager, services));
-        commands.add(new Find(manager, services));
-        commands.add(new FileTable(manager, view, services));
-        commands.add(new FindSettings(manager, services));
-        commands.add(new Clear(manager, services));
-        commands.add(new Create(manager, view, services));
-        commands.add(new Delete(manager, services));
-        commands.add(new Drop(manager, services));
-        commands.add(new Insert(manager, view, services));
-        commands.add(new Update(manager, services));
-        commands.add(new ReadQuery(manager, services));
-        commands.add(new CudQuery(manager, services));
-        commands.add(new History(view));
+        commands.add(new Connect(helpList));
+        commands.add(new Tables(helpList));
+        commands.add(new Columns(helpList));
+        commands.add(new TableType(helpList));
+        commands.add(new ColumnType(helpList));
+        commands.add(new Find(helpList));
+        commands.add(new FileTable(helpList));
+        commands.add(new FindSettings(helpList));
+        commands.add(new Clear(helpList));
+        commands.add(new Create(helpList));
+        commands.add(new Delete(helpList));
+        commands.add(new Drop(helpList));
+        commands.add(new Insert(helpList));
+        commands.add(new Update(helpList));
+        commands.add(new ReadQuery(helpList));
+        commands.add(new CudQuery(helpList));
+        commands.add(new History(helpList));
     }
-
     public ArrayList<Command> getCommands() {
         return commands;
     }

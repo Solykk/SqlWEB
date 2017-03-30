@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public interface DatabaseManager {
 
-    void  connect(String userName, String dbPassword) throws SQLException;
+    void  connect(String ipAddress, String userName, String dbPassword) throws SQLException;
 
     Table getTableNames() throws SQLException, NullPointerException;
     Table getColumnNames(String tableName) throws SQLException, NullPointerException;

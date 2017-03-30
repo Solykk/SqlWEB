@@ -1,15 +1,17 @@
 package ua.com.juja.sqlweb.service;
 
+import ua.com.juja.sqlweb.control.commands.Command;
 import ua.com.juja.sqlweb.model.DatabaseManager;
 import ua.com.juja.sqlweb.model.Table;
 
-import java.util.List;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public interface BackEndBonbs {
 
-    List<String> commandsList();
+    ArrayList<Command> commandsList();
 
-    DatabaseManager connect(String databaseName, String userName, String password);
+    DatabaseManager connect(String databaseName, String userName, String password) throws SQLException;
 
-    Table find(DatabaseManager manager, String tableName);
+    Table find(DatabaseManager manager, String tableName) throws SQLException;
 }
