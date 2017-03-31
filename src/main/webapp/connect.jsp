@@ -5,7 +5,7 @@
         <title>SQLCmd</title>
     </head>
     <body>
-        <form action="connect" method="post">
+        <form action="Connect" method="post">
             <table>
                 <tr>
                     <td>IPAddress</td>
@@ -21,7 +21,7 @@
                 </tr>
                 <tr>
                     <td></td>
-                    <td><input type="submit" value="connect"/></td>
+                    <td><input type="submit" value="Подключиться"/></td>
                 </tr>
             </table>
         </form>

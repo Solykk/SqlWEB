@@ -30,39 +30,39 @@ public class MainServlet extends HttpServlet {
         if (action.startsWith("/index")){
             req.setAttribute("items", backEndTie.commandsList());
             req.getRequestDispatcher("index.jsp").forward(req, resp);
-        } else if (action.startsWith("/connect")){
+        } else if (action.startsWith("/Connect")){
             req.getRequestDispatcher("connect.jsp").forward(req, resp);
-        } else if (action.startsWith("/tables")){
+        } else if (action.startsWith("/Tables")){
             req.getRequestDispatcher("tables.jsp").forward(req, resp);
-        }else if (action.startsWith("/columns")){
+        }else if (action.startsWith("/Columns")){
             req.getRequestDispatcher("columns.jsp").forward(req, resp);
-        }else if (action.startsWith("/tableType")){
+        }else if (action.startsWith("/TableType")){
             req.getRequestDispatcher("tableType.jsp").forward(req, resp);
-        }else if (action.startsWith("/columnType")){
+        }else if (action.startsWith("/ColumnType")){
             req.getRequestDispatcher("columnType.jsp").forward(req, resp);
-        }else if (action.startsWith("/find")){
+        }else if (action.startsWith("/Find")){
             req.getRequestDispatcher("find.jsp").forward(req, resp);
-        }else if (action.startsWith("/fileTable")){
+        }else if (action.startsWith("/FileTable")){
             req.getRequestDispatcher("fileTable.jsp").forward(req, resp);
-        }else if (action.startsWith("/findSettings")){
+        }else if (action.startsWith("/FindSettings")){
             req.getRequestDispatcher("findSettings.jsp").forward(req, resp);
-        }else if (action.startsWith("/clear")){
+        }else if (action.startsWith("/Clear")){
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
-        }else if (action.startsWith("/create")){
+        }else if (action.startsWith("/Create")){
             req.getRequestDispatcher("create.jsp").forward(req, resp);
-        }else if (action.startsWith("/delete")){
+        }else if (action.startsWith("/Delete")){
             req.getRequestDispatcher("delete.jsp").forward(req, resp);
-        }else if (action.startsWith("/drop")){
+        }else if (action.startsWith("/Drop")){
             req.getRequestDispatcher("drop.jsp").forward(req, resp);
-        }else if (action.startsWith("/insert")){
+        }else if (action.startsWith("/Insert")){
             req.getRequestDispatcher("insert.jsp").forward(req, resp);
-        }else if (action.startsWith("/update")){
+        }else if (action.startsWith("/Update")){
             req.getRequestDispatcher("update.jsp").forward(req, resp);
-        }else if (action.startsWith("/readQuery")){
-            req.getRequestDispatcher("readQuery.jsp").forward(req, resp);
-        }else if (action.startsWith("/cudQuery")){
-            req.getRequestDispatcher("cudQuery.jsp").forward(req, resp);
-        }else if (action.startsWith("/history")){
+        }else if (action.startsWith("/ReadQuery")){
+            req.getRequestDispatcher("readquery.jsp").forward(req, resp);
+        }else if (action.startsWith("/CudQuery")){
+            req.getRequestDispatcher("cudquery.jsp").forward(req, resp);
+        }else if (action.startsWith("/History")){
             req.getRequestDispatcher("history.jsp").forward(req, resp);
         } else {
             req.getRequestDispatcher("error.jsp").forward(req, resp);
@@ -73,7 +73,7 @@ public class MainServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = getAction(req);
 
-        if (action.startsWith("/connect")) {
+        if (action.startsWith("/Connect")) {
             String ipAddress = req.getParameter("ipAddress");
             String userName = req.getParameter("username");
             String password = req.getParameter("password");
@@ -81,6 +81,18 @@ public class MainServlet extends HttpServlet {
             try {
                 DatabaseManager manager = backEndTie.connect(ipAddress, userName, password);
                 req.getSession().setAttribute("manager", manager);
+                resp.sendRedirect(resp.encodeRedirectURL("index"));
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/CudQuery")) {
+            String cudQuery = req.getParameter("CudQuery");
+
+            try {
+                backEndTie.cudQuery((DatabaseManager) req.getSession().getAttribute("manager"), cudQuery);
                 resp.sendRedirect(resp.encodeRedirectURL("index"));
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
