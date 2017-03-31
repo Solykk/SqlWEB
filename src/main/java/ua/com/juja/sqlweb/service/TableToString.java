@@ -46,7 +46,7 @@ public class TableToString {
     private void columnNameString(Table table, StringBuilder tableString, ArrayList<Integer> maxLength) {
         for (int i = 0; i < table.getTableData().size(); i++){
 
-            String columnName = table.getTableData().get(i).columnName();
+            String columnName = table.getTableData().get(i).getColumnName();
 
             char [] containerCN = new char[maxLength.get(i) + 2];
             char [] reBuildCN = columnName.toCharArray();
@@ -113,7 +113,7 @@ public class TableToString {
             }
 
             Integer dataLength = tempDataObject.length();
-            Integer columnNameLength = table.getTableData().get(j).columnName().length();
+            Integer columnNameLength = table.getTableData().get(j).getColumnName().length();
 
             for (int i = 0; i < table.getTableData().get(j).getValue().size(); i++) {
 

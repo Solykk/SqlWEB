@@ -12,7 +12,7 @@ public class ColumnData {
         this.value = value;
     }
 
-    public String columnName(){
+    public String getColumnName(){
         return columnName;
     }
 

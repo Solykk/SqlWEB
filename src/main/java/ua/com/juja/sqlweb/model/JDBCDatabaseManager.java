@@ -186,7 +186,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
 
         while (resultSet.next()){
             for(int index = 0; index < columnDatas.size(); index++){
-                String columnName = columnDatas.get(index).columnName();
+                String columnName = columnDatas.get(index).getColumnName();
                 String temp = resultSet.getString(columnName);
 
                 columnDatas.get(index).getValue().add(temp);

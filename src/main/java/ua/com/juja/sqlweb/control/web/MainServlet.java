@@ -41,6 +41,14 @@ public class MainServlet extends HttpServlet {
         }else if (action.startsWith("/ColumnType")){
             req.getRequestDispatcher("columnType.jsp").forward(req, resp);
         }else if (action.startsWith("/Find")){
+            String tableName = req.getParameter("tableName");
+            try {
+                req.setAttribute("table", backEndTie.find(manager, tableName));
+                req.getRequestDispatcher("find.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
             req.getRequestDispatcher("find.jsp").forward(req, resp);
         }else if (action.startsWith("/FileTable")){
             req.getRequestDispatcher("fileTable.jsp").forward(req, resp);
