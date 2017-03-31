@@ -37,7 +37,7 @@ public interface BackEndTie {
 
     void update(DatabaseManager manager, String tableName, ArrayList<String[]> forUpdate, ArrayList<String[]> howUpdate) throws SQLException;
 
-    Table redQuery(DatabaseManager manager, String query) throws SQLException;
+    Table readQuery(DatabaseManager manager, String query) throws SQLException;
 
     void cudQuery(DatabaseManager manager, String query) throws  SQLException;
 

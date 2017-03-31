@@ -8,8 +8,8 @@
         <form action="connect" method="post">
             <table>
                 <tr>
-                    <td>Database name</td>
-                    <td><input type="text" name="dbname"/></td>
+                    <td>IPAddress</td>
+                    <td><input type="text" name="ipAddress"/></td>
                 </tr>
                 <tr>
                     <td>User name</td>

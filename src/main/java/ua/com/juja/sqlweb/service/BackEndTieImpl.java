@@ -61,7 +61,13 @@ public class BackEndTieImpl implements BackEndTie {
 
     @Override
     public void create(DatabaseManager manager, String tableName, ArrayList<String> settings, String columnNamePK, Long startWith) throws SQLException {
-
+        manager.createWithoutPK(tableName, settings);
+        if(columnNamePK != null) {
+            manager.createCreatePK(tableName, columnNamePK);
+            if(startWith != null){
+                manager.createSequencePK(tableName, startWith);
+            }
+        }
     }
 
     @Override
@@ -85,7 +91,7 @@ public class BackEndTieImpl implements BackEndTie {
     }
 
     @Override
-    public Table redQuery(DatabaseManager manager, String query) throws SQLException {
+    public Table readQuery(DatabaseManager manager, String query) throws SQLException {
         return manager.readQuery(query);
     }
 

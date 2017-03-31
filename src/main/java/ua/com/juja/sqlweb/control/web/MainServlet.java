@@ -1,5 +1,6 @@
 package ua.com.juja.sqlweb.control.web;
 
+import ua.com.juja.sqlweb.model.DatabaseManager;
 import ua.com.juja.sqlweb.service.BackEndTie;
 import ua.com.juja.sqlweb.service.BackEndTieImpl;
 
@@ -24,7 +25,10 @@ public class MainServlet extends HttpServlet {
 
         String action = getAction(req);
 
+        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
+
         if (action.startsWith("/index")){
+            req.setAttribute("items", backEndTie.commandsList());
             req.getRequestDispatcher("index.jsp").forward(req, resp);
         } else if (action.startsWith("/connect")){
             req.getRequestDispatcher("connect.jsp").forward(req, resp);
@@ -62,6 +66,26 @@ public class MainServlet extends HttpServlet {
             req.getRequestDispatcher("history.jsp").forward(req, resp);
         } else {
             req.getRequestDispatcher("error.jsp").forward(req, resp);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = getAction(req);
+
+        if (action.startsWith("/connect")) {
+            String ipAddress = req.getParameter("ipAddress");
+            String userName = req.getParameter("username");
+            String password = req.getParameter("password");
+
+            try {
+                DatabaseManager manager = backEndTie.connect(ipAddress, userName, password);
+                req.getSession().setAttribute("manager", manager);
+                resp.sendRedirect(resp.encodeRedirectURL("index"));
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
         }
     }
 
