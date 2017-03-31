@@ -5,6 +5,18 @@
         <title>SQLCmd</title>
     </head>
     <body>
+    <form action="Find" method="post">
+        <table>
+            <tr>
+                <td>Table Name</td>
+                <td><input type="text" name="TableName"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Найти"/></td>
+            </tr>
+        </table>
+    </form>
         <table border="1">
             <tbody>
                 <caption><c:out value="${table.tableName}">${table.tableName}</c:out></caption>

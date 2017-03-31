@@ -1,6 +1,7 @@
 package ua.com.juja.sqlweb.control.web;
 
 import ua.com.juja.sqlweb.model.DatabaseManager;
+import ua.com.juja.sqlweb.model.Table;
 import ua.com.juja.sqlweb.service.BackEndTie;
 import ua.com.juja.sqlweb.service.BackEndTieImpl;
 
@@ -41,14 +42,6 @@ public class MainServlet extends HttpServlet {
         }else if (action.startsWith("/ColumnType")){
             req.getRequestDispatcher("columnType.jsp").forward(req, resp);
         }else if (action.startsWith("/Find")){
-            String tableName = req.getParameter("tableName");
-            try {
-                req.setAttribute("table", backEndTie.find(manager, tableName));
-                req.getRequestDispatcher("find.jsp").forward(req, resp);
-            } catch (Exception e) {
-                req.setAttribute("message", e.getMessage());
-                req.getRequestDispatcher("error.jsp").forward(req, resp);
-            }
             req.getRequestDispatcher("find.jsp").forward(req, resp);
         }else if (action.startsWith("/FileTable")){
             req.getRequestDispatcher("fileTable.jsp").forward(req, resp);
@@ -102,6 +95,19 @@ public class MainServlet extends HttpServlet {
             try {
                 backEndTie.cudQuery((DatabaseManager) req.getSession().getAttribute("manager"), cudQuery);
                 resp.sendRedirect(resp.encodeRedirectURL("index"));
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/Find")) {
+            String tableName = req.getParameter("TableName");
+
+            try {
+                Table table = backEndTie.find((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+                req.setAttribute("table", table);
+                req.getRequestDispatcher("find.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
