@@ -28,6 +28,7 @@ public class MainServlet extends HttpServlet {
 
         if (action.startsWith("/index")){
             req.setAttribute("items", backEndTie.commandsList());
+            req.getSession().removeAttribute("table");
             req.getRequestDispatcher("index.jsp").forward(req, resp);
         } else if (action.startsWith("/Connect")){
             req.getRequestDispatcher("connect.jsp").forward(req, resp);
@@ -111,8 +112,8 @@ public class MainServlet extends HttpServlet {
 
             try {
                 Table table = backEndTie.find((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
-                req.setAttribute("table", table);
                 req.getSession().setAttribute("table", table);
+                req.setAttribute("table", table);
                 req.getRequestDispatcher("find.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
