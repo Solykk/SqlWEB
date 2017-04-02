@@ -42,12 +42,16 @@ public class MainServlet extends HttpServlet {
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
         }else if (action.startsWith("/Columns")){
+            req.getSession().removeAttribute("table");
             req.getRequestDispatcher("columns.jsp").forward(req, resp);
         }else if (action.startsWith("/TableType")){
+            req.getSession().removeAttribute("table");
             req.getRequestDispatcher("tabletype.jsp").forward(req, resp);
         }else if (action.startsWith("/ColumnType")){
+            req.getSession().removeAttribute("table");
             req.getRequestDispatcher("columntype.jsp").forward(req, resp);
         }else if (action.startsWith("/Find")){
+            req.getSession().removeAttribute("table");
             req.getRequestDispatcher("find.jsp").forward(req, resp);
         }else if (action.startsWith("/FileTable")){
             req.getRequestDispatcher("filetable.jsp").forward(req, resp);
@@ -66,6 +70,7 @@ public class MainServlet extends HttpServlet {
         }else if (action.startsWith("/Update")){
             req.getRequestDispatcher("update.jsp").forward(req, resp);
         }else if (action.startsWith("/ReadQuery")){
+            req.getSession().removeAttribute("table");
             req.getRequestDispatcher("readquery.jsp").forward(req, resp);
         }else if (action.startsWith("/CudQuery")){
             req.getRequestDispatcher("cudquery.jsp").forward(req, resp);
@@ -126,6 +131,7 @@ public class MainServlet extends HttpServlet {
 
             try {
                 Table table = backEndTie.columns((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+                req.getSession().setAttribute("table", table);
                 req.setAttribute("table", table);
                 req.getRequestDispatcher("columns.jsp").forward(req, resp);
             } catch (Exception e) {
@@ -139,6 +145,7 @@ public class MainServlet extends HttpServlet {
 
             try {
                 Table table = backEndTie.tableType((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+                req.getSession().setAttribute("table", table);
                 req.setAttribute("table", table);
                 req.getRequestDispatcher("tabletype.jsp").forward(req, resp);
             } catch (Exception e) {
@@ -153,6 +160,7 @@ public class MainServlet extends HttpServlet {
 
             try {
                 Table table = backEndTie.columnType((DatabaseManager) req.getSession().getAttribute("manager"), tableName, columnName);
+                req.getSession().setAttribute("table", table);
                 req.setAttribute("table", table);
                 req.getRequestDispatcher("columntype.jsp").forward(req, resp);
             } catch (Exception e) {
@@ -166,6 +174,7 @@ public class MainServlet extends HttpServlet {
 
             try {
                 Table table = backEndTie.readQuery((DatabaseManager) req.getSession().getAttribute("manager"), readQuery);
+                req.getSession().setAttribute("table", table);
                 req.setAttribute("table", table);
                 req.getRequestDispatcher("readquery.jsp").forward(req, resp);
             } catch (Exception e) {
