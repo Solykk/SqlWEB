@@ -43,13 +43,13 @@ public class MainServlet extends HttpServlet {
         }else if (action.startsWith("/Columns")){
             req.getRequestDispatcher("columns.jsp").forward(req, resp);
         }else if (action.startsWith("/TableType")){
-            req.getRequestDispatcher("tableType.jsp").forward(req, resp);
+            req.getRequestDispatcher("tabletype.jsp").forward(req, resp);
         }else if (action.startsWith("/ColumnType")){
-            req.getRequestDispatcher("columnType.jsp").forward(req, resp);
+            req.getRequestDispatcher("columntype.jsp").forward(req, resp);
         }else if (action.startsWith("/Find")){
             req.getRequestDispatcher("find.jsp").forward(req, resp);
         }else if (action.startsWith("/FileTable")){
-            req.getRequestDispatcher("fileTable.jsp").forward(req, resp);
+            req.getRequestDispatcher("filetable.jsp").forward(req, resp);
         }else if (action.startsWith("/FindSettings")){
             req.getRequestDispatcher("findSettings.jsp").forward(req, resp);
         }else if (action.startsWith("/Clear")){
@@ -126,6 +126,46 @@ public class MainServlet extends HttpServlet {
                 Table table = backEndTie.columns((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
                 req.setAttribute("table", table);
                 req.getRequestDispatcher("columns.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/TableType")) {
+            String tableName = req.getParameter("TableName");
+
+            try {
+                Table table = backEndTie.tableType((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+                req.setAttribute("table", table);
+                req.getRequestDispatcher("tabletype.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/ColumnType")) {
+            String tableName = req.getParameter("TableName");
+            String columnName = req.getParameter("ColumnName");
+
+            try {
+                Table table = backEndTie.columnType((DatabaseManager) req.getSession().getAttribute("manager"), tableName, columnName);
+                req.setAttribute("table", table);
+                req.getRequestDispatcher("columntype.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/ReadQuery")) {
+            String readQuery = req.getParameter("readQuery");
+
+            try {
+                Table table = backEndTie.readQuery((DatabaseManager) req.getSession().getAttribute("manager"), readQuery);
+                req.setAttribute("table", table);
+                req.getRequestDispatcher("readquery.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
