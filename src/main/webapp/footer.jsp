@@ -1,4 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <a href="index">index</a><br>
-Copyright 2015 JuJa.com.ua (all rights reserved)
+Copyright 2017 JuJa.com.ua (all rights reserved)

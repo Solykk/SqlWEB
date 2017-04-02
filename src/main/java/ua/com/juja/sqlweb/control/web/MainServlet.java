@@ -26,8 +26,6 @@ public class MainServlet extends HttpServlet {
 
         String action = getAction(req);
 
-        DatabaseManager manager = (DatabaseManager) req.getSession().getAttribute("manager");
-
         if (action.startsWith("/index")){
             req.setAttribute("items", backEndTie.commandsList());
             req.getRequestDispatcher("index.jsp").forward(req, resp);
@@ -42,7 +40,6 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
-//            req.getRequestDispatcher("tables.jsp").forward(req, resp);
         }else if (action.startsWith("/Columns")){
             req.getRequestDispatcher("columns.jsp").forward(req, resp);
         }else if (action.startsWith("/TableType")){
@@ -116,6 +113,19 @@ public class MainServlet extends HttpServlet {
                 Table table = backEndTie.find((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
                 req.setAttribute("table", table);
                 req.getRequestDispatcher("find.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/Columns")) {
+            String tableName = req.getParameter("TableName");
+
+            try {
+                Table table = backEndTie.columns((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+                req.setAttribute("table", table);
+                req.getRequestDispatcher("columns.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
