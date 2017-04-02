@@ -17,7 +17,6 @@ public class CommandsList {
         commands.add(new TableType(helpList));
         commands.add(new ColumnType(helpList));
         commands.add(new Find(helpList));
-        commands.add(new FileTable(helpList));
         commands.add(new FindSettings(helpList));
         commands.add(new Clear(helpList));
         commands.add(new Create(helpList));

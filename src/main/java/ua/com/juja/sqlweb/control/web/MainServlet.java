@@ -112,6 +112,7 @@ public class MainServlet extends HttpServlet {
             try {
                 Table table = backEndTie.find((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
                 req.setAttribute("table", table);
+                req.getSession().setAttribute("table", table);
                 req.getRequestDispatcher("find.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
@@ -166,6 +167,21 @@ public class MainServlet extends HttpServlet {
                 Table table = backEndTie.readQuery((DatabaseManager) req.getSession().getAttribute("manager"), readQuery);
                 req.setAttribute("table", table);
                 req.getRequestDispatcher("readquery.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/FileTable")) {
+            String fileName = req.getParameter("FileName");
+            String absolutePath = req.getParameter("AbsolutePath");
+            Table table = (Table) req.getSession().getAttribute("table");
+
+            try {
+                backEndTie.fileTable(fileName, table, absolutePath);
+                req.getSession().removeAttribute("table");
+                req.getRequestDispatcher("find.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);

@@ -29,25 +29,6 @@ public class FileTable implements Command{
         return description;
     }
 
-//    private DatabaseManager manager;
-//    private View view;
-//    private ViewService viewService;
-//    private Correctly correctly;
-//    private TablePrinter tablePrinter;
-//
-//    public FileTable(DatabaseManager manager, View view, Services services) {
-//        this.manager = manager;
-//        this.view = view;
-//        this.viewService = services.getViewService();
-//        this.correctly = services.getCorrectly();
-//        this.tablePrinter = services.getTablePrinter();
-//    }
-//
-//    @Override
-//    public boolean isProcessed(String command) {
-//        return command.toLowerCase().startsWith("filetable|");
-//    }
-//
 //    @Override
 //    public void process(String command) {
 //
@@ -83,18 +64,7 @@ public class FileTable implements Command{
 //        File file = new File(tableName + ".txt");
 //        fileExistChecker(dataTable, tableName, file);
 //    }
-//
-//    private String nameAction() {
-//        view.write("Имя файла будет соответствовать имени таблицы. Если согланы, введите " + "Y");
-//        view.write("Если хотите переименовать файл, нажмите Enter");
-//        return view.read();
-//    }
-//
-//    private String saveAction() {
-//        view.write("Сохранить эти данные в файл? Y/N");
-//        return view.read();
-//    }
-//
+
 //    private void reNameWriter(String dataTable) throws IOException {
 //        view.write("Введите название файла: ");
 //        String name = view.read();
@@ -135,13 +105,7 @@ public class FileTable implements Command{
 //            nameOkWriter(name, dataTable, file);
 //        }
 //    }
-//
-//    private String existAction(String name) {
-//        view.write("Файл с именем " + name + " уже существует! Перезаписать его? Если да, введите " + "Y");
-//        view.write("Если хотите переименовать файл, нажмите Enter");
-//        return view.read();
-//    }
-//
+
 //    private void nameOkWriter(String tableName, String dataTable, File file) throws IOException {
 //        fileInput(dataTable, tableName, file);
 //        viewService.fileTabComTrySuc(tableName);

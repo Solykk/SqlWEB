@@ -38,6 +38,7 @@
                 </tr>
             </tbody>
         </table>
+        <%@include file="filetable.jsp" %>
         <%@include file="footer.jsp" %>
     </body>
 </html>

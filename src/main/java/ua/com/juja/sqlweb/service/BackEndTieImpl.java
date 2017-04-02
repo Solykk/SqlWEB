@@ -6,6 +6,9 @@ import ua.com.juja.sqlweb.model.DatabaseManager;
 import ua.com.juja.sqlweb.model.JDBCDatabaseManager;
 import ua.com.juja.sqlweb.model.Table;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -47,6 +50,20 @@ public class BackEndTieImpl implements BackEndTie {
     @Override
     public Table find(DatabaseManager manager, String tableName) throws SQLException {
         return manager.read(tableName);
+    }
+
+    @Override
+    public void fileTable(String fileName, Table table, String path) throws IOException {
+        TableToString tTS = new TableToString();
+        String tableToString = tTS.tableTS(table);
+        System.out.println(tableToString);
+        File file = new File(path + fileName + ".txt");
+        if (file.createNewFile()) {
+            try (FileWriter writer = new FileWriter(path + fileName + ".txt")) {
+                writer.write(tableToString);
+                writer.flush();
+            }
+        }
     }
 
     @Override

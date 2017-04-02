@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class TableToString {
 
-    public  String tableToString (Table table){
+    public  String tableTS (Table table){
 
         if(table == null) { return ""; }
 
