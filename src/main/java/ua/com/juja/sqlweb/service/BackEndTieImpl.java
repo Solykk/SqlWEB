@@ -25,7 +25,7 @@ public class BackEndTieImpl implements BackEndTie {
     }
 
     @Override
-    public Table tables(DatabaseManager manager, String tableName) throws SQLException {
+    public Table tables(DatabaseManager manager) throws SQLException {
         return manager.getTableNames();
     }
 

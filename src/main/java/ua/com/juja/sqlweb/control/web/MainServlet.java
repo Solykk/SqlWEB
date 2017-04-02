@@ -34,7 +34,15 @@ public class MainServlet extends HttpServlet {
         } else if (action.startsWith("/Connect")){
             req.getRequestDispatcher("connect.jsp").forward(req, resp);
         } else if (action.startsWith("/Tables")){
-            req.getRequestDispatcher("tables.jsp").forward(req, resp);
+            try {
+                Table table = backEndTie.tables((DatabaseManager) req.getSession().getAttribute("manager"));
+                req.setAttribute("table", table);
+                req.getRequestDispatcher("tables.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+//            req.getRequestDispatcher("tables.jsp").forward(req, resp);
         }else if (action.startsWith("/Columns")){
             req.getRequestDispatcher("columns.jsp").forward(req, resp);
         }else if (action.startsWith("/TableType")){

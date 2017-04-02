@@ -13,7 +13,7 @@ public interface BackEndTie {
 
     DatabaseManager connect(String databaseName, String userName, String password) throws SQLException;
 
-    Table tables(DatabaseManager manager, String tableName) throws SQLException;
+    Table tables(DatabaseManager manager) throws SQLException;
 
     Table columns(DatabaseManager manager, String tableName) throws SQLException;
 

@@ -2,27 +2,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head>
-        <title>SQLCmd</title>
+        <title>Tables</title>
     </head>
     <body>
-        <form action="connect" method="post">
-            <table>
+        <form action="tables" method="get">
+            <table border="1">
+                <tbody>
+                <caption><c:out value="${table.tableName}">${table.tableName}</c:out></caption>
                 <tr>
-                    <td>Database name</td>
-                    <td><input type="text" name="dbname"/></td>
+                    <c:forEach items="${table.tableData}" var="columns">
+                        <td>
+                            <c:out value="${columns.columnName}">${columns.columnName}</c:out><br>
+                        </td>
+                    </c:forEach>
                 </tr>
                 <tr>
-                    <td>User name</td>
-                    <td><input type="text" name="username"/></td>
+                    <c:forEach items="${table.tableData}" var="columns">
+                        <td>
+                            <c:forEach items="${columns.value}" var="value">
+                                ${value}<br>
+                            </c:forEach>
+                        </td>
+                    </c:forEach>
                 </tr>
-                <tr>
-                    <td>Password</td>
-                    <td><input type="password" name="password"/></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value="connect"/></td>
-                </tr>
+                </tbody>
             </table>
         </form>
         <%@include file="footer.jsp" %>
