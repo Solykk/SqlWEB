@@ -8,7 +8,7 @@ public class FindSettings implements Command {
     private String description;
 
     public FindSettings(HelpList helpList) {
-        this.commandName = "FindSettings";
+        this.commandName = "FSettings";
         this.description = helpList.findsettings;
     }
 

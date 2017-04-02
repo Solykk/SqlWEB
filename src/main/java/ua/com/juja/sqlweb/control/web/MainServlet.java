@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainServlet extends HttpServlet {
 
@@ -29,6 +30,7 @@ public class MainServlet extends HttpServlet {
         if (action.startsWith("/index")){
             req.setAttribute("items", backEndTie.commandsList());
             req.getSession().removeAttribute("table");
+            req.getSession().removeAttribute("count");
             req.getRequestDispatcher("index.jsp").forward(req, resp);
         } else if (action.startsWith("/Connect")){
             req.getRequestDispatcher("connect.jsp").forward(req, resp);
@@ -43,20 +45,25 @@ public class MainServlet extends HttpServlet {
             }
         }else if (action.startsWith("/Columns")){
             req.getSession().removeAttribute("table");
+            req.getSession().removeAttribute("count");
             req.getRequestDispatcher("columns.jsp").forward(req, resp);
         }else if (action.startsWith("/TableType")){
             req.getSession().removeAttribute("table");
+            req.getSession().removeAttribute("count");
             req.getRequestDispatcher("tabletype.jsp").forward(req, resp);
         }else if (action.startsWith("/ColumnType")){
             req.getSession().removeAttribute("table");
+            req.getSession().removeAttribute("count");
             req.getRequestDispatcher("columntype.jsp").forward(req, resp);
         }else if (action.startsWith("/Find")){
             req.getSession().removeAttribute("table");
+            req.getSession().removeAttribute("count");
             req.getRequestDispatcher("find.jsp").forward(req, resp);
         }else if (action.startsWith("/FileTable")){
+            req.getSession().removeAttribute("count");
             req.getRequestDispatcher("filetable.jsp").forward(req, resp);
-        }else if (action.startsWith("/FindSettings")){
-            req.getRequestDispatcher("findSettings.jsp").forward(req, resp);
+        }else if (action.startsWith("/FSettings")){
+            req.getRequestDispatcher("findsettings.jsp").forward(req, resp);
         }else if (action.startsWith("/Clear")){
             req.getRequestDispatcher("clear.jsp").forward(req, resp);
         }else if (action.startsWith("/Create")){
@@ -70,6 +77,7 @@ public class MainServlet extends HttpServlet {
         }else if (action.startsWith("/Update")){
             req.getRequestDispatcher("update.jsp").forward(req, resp);
         }else if (action.startsWith("/ReadQuery")){
+            req.getSession().removeAttribute("count");
             req.getSession().removeAttribute("table");
             req.getRequestDispatcher("readquery.jsp").forward(req, resp);
         }else if (action.startsWith("/CudQuery")){
@@ -192,6 +200,44 @@ public class MainServlet extends HttpServlet {
                 backEndTie.fileTable(fileName, table, absolutePath);
                 req.getSession().removeAttribute("table");
                 req.getRequestDispatcher("find.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/FSettings")) {
+
+            if(req.getParameter("add") != null){
+                Integer counter = 2;
+                if(req.getSession().getAttribute("count") != null) {
+                    counter += (Integer) req.getSession().getAttribute("count");
+                }
+                req.getSession().setAttribute("count", counter);
+                Integer count = (Integer) req.getSession().getAttribute("count");
+                int[] array = new int [count];
+                for (int i = 0; i < array.length; i++){
+                    array[i] = i;
+                }
+                req.setAttribute("inputVal", array);
+                req.getRequestDispatcher("findsettings.jsp").forward(req, resp);
+                return;
+            }
+
+            String tableName = req.getParameter("TableName");
+            ArrayList<String[]> settings = new ArrayList<>();
+            String[] array = req.getParameterValues("settings[]");
+            for (int i = 0; i < array.length; ) {
+                settings.add(new String[]{array[i], array[i + 1]});
+                i += 2;
+            }
+
+            try {
+                Table table = backEndTie.findSettings((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings);
+                req.getSession().setAttribute("table", table);
+                req.setAttribute("table", table);
+                req.getSession().removeAttribute("count");
+                req.getRequestDispatcher("findsettings.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
