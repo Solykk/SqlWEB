@@ -4,6 +4,7 @@ import ua.com.juja.sqlweb.model.DatabaseManager;
 import ua.com.juja.sqlweb.model.Table;
 import ua.com.juja.sqlweb.service.BackEndTie;
 import ua.com.juja.sqlweb.service.BackEndTieImpl;
+import ua.com.juja.sqlweb.service.SettingsHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -322,6 +323,51 @@ public class MainServlet extends HttpServlet {
                 backEndTie.create((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings, columnNamePK, startWith);
                 req.getSession().removeAttribute("count");
                 req.getRequestDispatcher("create.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/Insert")) {
+
+            if(req.getParameter("add") != null){
+                Integer counter = 2;
+                if(req.getSession().getAttribute("count") != null) {
+                    counter += (Integer) req.getSession().getAttribute("count");
+                }
+                req.getSession().setAttribute("count", counter);
+                Integer count = (Integer) req.getSession().getAttribute("count");
+                int[] array = new int [count];
+                for (int i = 0; i < array.length; i++){
+                    array[i] = i;
+                }
+                req.setAttribute("inputVal", array);
+                req.getRequestDispatcher("insert.jsp").forward(req, resp);
+                return;
+            }
+
+            SettingsHelper settingsHelper = new SettingsHelper();
+            String columnNamePK = req.getParameter("ColumnNamePK");
+            String[] array = req.getParameterValues("settings[]");
+            ArrayList<String[]> settings = new ArrayList<>();
+            boolean isKey = false;
+            if(req.getParameter("isKey") != null){
+                isKey = true;
+                settings.add(new String[]{columnNamePK, ""});
+            }
+
+            settings = settingsHelper.addSettings(array, settings);
+            String tableName = req.getParameter("TableName");
+
+            try {
+                backEndTie.insert((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings, isKey);
+                settings.remove(0);
+                Table table = backEndTie.findSettings((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings);
+                req.getSession().setAttribute("table", table);
+                req.setAttribute("table", table);
+                req.getSession().removeAttribute("count");
+                req.getRequestDispatcher("insert.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);

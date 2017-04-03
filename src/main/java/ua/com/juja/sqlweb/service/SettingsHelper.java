@@ -46,7 +46,7 @@ public class SettingsHelper {
     }
 
     public ArrayList<String[]> addSettings(String[] data, ArrayList<String[]> settings) {
-        int index = 2;
+        int index = 0;
         String temp = "";
         if(settings.size() == 1){
             temp += settings.get(0)[0];

@@ -10,7 +10,7 @@ public class Query {
         String columnNames = getName(nameDate);
         String values = getValue(tableName, nameDate, idKey);
 
-        return  "INSERT INTO " + tableName + "( " + columnNames + ") VALUES ( " + values + " )";
+        return  "INSERT INTO " + tableName + " ( " + columnNames + " ) VALUES ( " + values + " )";
     }
 
     private String getValue(String tableName, ArrayList<String[]> nameDate, boolean idKey) {
