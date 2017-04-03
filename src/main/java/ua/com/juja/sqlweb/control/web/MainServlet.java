@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class MainServlet extends HttpServlet {
 
@@ -251,7 +250,7 @@ public class MainServlet extends HttpServlet {
 
             try {
                 backEndTie.drop((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
-                resp.sendRedirect(resp.encodeRedirectURL("drop"));
+                resp.sendRedirect(resp.encodeRedirectURL("drop.jsp"));
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
@@ -263,7 +262,7 @@ public class MainServlet extends HttpServlet {
 
             try {
                 backEndTie.clear((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
-                resp.sendRedirect(resp.encodeRedirectURL("clear"));
+                resp.sendRedirect(resp.encodeRedirectURL("clear.jsp"));
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
@@ -404,6 +403,52 @@ public class MainServlet extends HttpServlet {
                 backEndTie.delete((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings);
                 req.getSession().removeAttribute("count");
                 req.getRequestDispatcher("delete.jsp").forward(req, resp);
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/Update")) {
+
+            if(req.getParameter("add") != null){
+                Integer counter = 2;
+                if(req.getSession().getAttribute("count") != null) {
+                    counter += (Integer) req.getSession().getAttribute("count");
+                }
+                req.getSession().setAttribute("count", counter);
+                Integer count = (Integer) req.getSession().getAttribute("count");
+                int[] array = new int [count];
+                for (int i = 0; i < array.length; i++){
+                    array[i] = i;
+                }
+                req.setAttribute("inputVal", array);
+                req.getRequestDispatcher("update.jsp").forward(req, resp);
+                return;
+            }
+
+            String tableName = req.getParameter("TableName");
+            String[] arrayFor = req.getParameterValues("settingsFor[]");
+            ArrayList<String[]> forUpdate = new ArrayList<>();
+            for (int i = 0; i < arrayFor.length; ) {
+                forUpdate.add(new String[]{arrayFor[i], arrayFor[i + 1]});
+                i += 2;
+            }
+            String[] arrayHow = req.getParameterValues("settingsHow[]");
+            ArrayList<String[]> howUpdate  = new ArrayList<>();
+            for (int i = 0; i < arrayHow .length; ) {
+                howUpdate .add(new String[]{arrayHow [i], arrayHow [i + 1]});
+                i += 2;
+            }
+
+
+            try {
+                backEndTie.update((DatabaseManager) req.getSession().getAttribute("manager"), tableName, howUpdate, forUpdate);
+                Table table = backEndTie.findSettings((DatabaseManager) req.getSession().getAttribute("manager"), tableName, howUpdate);
+                req.getSession().setAttribute("table", table);
+                req.setAttribute("table", table);
+                req.getSession().removeAttribute("count");
+                req.getRequestDispatcher("update.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);

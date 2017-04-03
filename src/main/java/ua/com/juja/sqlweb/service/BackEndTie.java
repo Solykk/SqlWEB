@@ -44,4 +44,6 @@ public interface BackEndTie {
 
     void cudQuery(DatabaseManager manager, String query) throws  SQLException;
 
+    void disconnect(DatabaseManager manager);
+
 }

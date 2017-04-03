@@ -117,4 +117,9 @@ public class BackEndTieImpl implements BackEndTie {
         manager.cudQuery(query);
     }
 
+    @Override
+    public void disconnect(DatabaseManager manager) {
+        manager.disconnect();
+    }
+
 }
