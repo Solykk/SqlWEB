@@ -243,6 +243,30 @@ public class MainServlet extends HttpServlet {
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
         }
+
+        if (action.startsWith("/Drop")) {
+            String tableName = req.getParameter("TableName");
+
+            try {
+                backEndTie.drop((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+                resp.sendRedirect(resp.encodeRedirectURL("drop"));
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/Clear")) {
+            String tableName = req.getParameter("TableName");
+
+            try {
+                backEndTie.clear((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+                resp.sendRedirect(resp.encodeRedirectURL("drop"));
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
     }
 
     private String getAction(HttpServletRequest req) {
