@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainServlet extends HttpServlet {
 
@@ -261,7 +262,66 @@ public class MainServlet extends HttpServlet {
 
             try {
                 backEndTie.clear((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
-                resp.sendRedirect(resp.encodeRedirectURL("drop"));
+                resp.sendRedirect(resp.encodeRedirectURL("clear"));
+            } catch (Exception e) {
+                req.setAttribute("message", e.getMessage());
+                req.getRequestDispatcher("error.jsp").forward(req, resp);
+            }
+        }
+
+        if (action.startsWith("/Create")) {
+
+            if(req.getParameter("add") != null){
+                Integer counter = 1;
+                if(req.getSession().getAttribute("count") != null) {
+                    counter += (Integer) req.getSession().getAttribute("count");
+                }
+                req.getSession().setAttribute("count", counter);
+                Integer count = (Integer) req.getSession().getAttribute("count");
+                ArrayList<Integer> array = new ArrayList<>();
+                for (int i = 0; i < count; i++){
+                    array.add(i);
+                }
+                req.setAttribute("inputVal", array);
+                req.getRequestDispatcher("create.jsp").forward(req, resp);
+                return;
+            }
+
+            String tableName = req.getParameter("TableName");
+            String columnNamePK = null;
+            String[] arraySt = req.getParameterValues("settings[]");
+            String[] arrayN = req.getParameterValues("nullable[]");
+            Integer arrayPk = Integer.valueOf(req.getParameter("pk"));
+            if(arrayPk != null){
+                columnNamePK = arraySt[arrayPk];
+            }
+
+            Long startWith = null;
+            if(req.getParameter("SeqTrue").equals("on")) {
+                if(req.getParameter("StartWith") != null) {
+                    startWith = Long.valueOf(req.getParameter("StartWith"));
+                } else {
+                    startWith = 1l;
+                }
+            }
+
+            ArrayList<String> settings = new ArrayList<>();
+            for (int i = 0, k = 0; i < arraySt.length;) {
+                String temp = arraySt[i] + " " + arraySt[i + 1];
+                if((i != 0 && Integer.valueOf(arrayN[k]) == i/2)||(i == 0 && Integer.valueOf(arrayN[k]) == 0)){
+                    temp += " NULL";
+                    k++;
+                } else {
+                    temp += " NOT NULL";
+                }
+                settings.add(temp);
+                i += 2;
+            }
+
+            try {
+                backEndTie.create((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings, columnNamePK, startWith);
+                req.getSession().removeAttribute("count");
+                req.getRequestDispatcher("create.jsp").forward(req, resp);
             } catch (Exception e) {
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
