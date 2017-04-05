@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 public interface BackEndTie {
 
+    Services getServices();
+
     ArrayList<Command> commandsList();
 
     DatabaseManager connect(String databaseName, String userName, String password) throws SQLException;

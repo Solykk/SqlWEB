@@ -352,7 +352,7 @@ public class MainServlet extends HttpServlet {
                 return;
             }
 
-            SettingsHelper settingsHelper = new SettingsHelper();
+            SettingsHelper settingsHelper = backEndTie.getServices().getSettingsHelper();
             String columnNamePK = req.getParameter("ColumnNamePK");
             String[] array = req.getParameterValues("settings[]");
             ArrayList<String[]> settings = new ArrayList<>();

@@ -23,6 +23,11 @@ public class BackEndTieImpl implements BackEndTie {
     private Services services;
 
     @Override
+    public Services getServices() {
+        return services;
+    }
+
+    @Override
     public ArrayList<Command> commandsList() {
         return new CommandsList(services.getHelpList()).getCommands();
     }
