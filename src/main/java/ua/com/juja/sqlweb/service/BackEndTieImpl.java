@@ -1,9 +1,10 @@
 package ua.com.juja.sqlweb.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.control.CommandsList;
 import ua.com.juja.sqlweb.control.commands.Command;
 import ua.com.juja.sqlweb.model.DatabaseManager;
-import ua.com.juja.sqlweb.model.JDBCDatabaseManager;
 import ua.com.juja.sqlweb.model.Table;
 
 import java.io.File;
@@ -12,17 +13,23 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+@Component
 public class BackEndTieImpl implements BackEndTie {
+
+    @Autowired
+    private DatabaseManagerFactory factory;
+
+    @Autowired
+    private Services services;
 
     @Override
     public ArrayList<Command> commandsList() {
-        HelpList helpList = new HelpList();
-        return new CommandsList(helpList).getCommands();
+        return new CommandsList(services.getHelpList()).getCommands();
     }
 
     @Override
     public DatabaseManager connect(String ipAddress, String userName, String password) throws SQLException {
-        DatabaseManager manager = new JDBCDatabaseManager();
+        DatabaseManager manager = factory.createDatabaseManager();
         manager.connect(ipAddress, userName, password);
         return manager;
     }
@@ -54,7 +61,7 @@ public class BackEndTieImpl implements BackEndTie {
 
     @Override
     public void fileTable(String fileName, Table table, String path) throws IOException {
-        TableToString tTS = new TableToString();
+        TableToString tTS = services.getTableToString();
         String tableToString = tTS.tableTS(table);
         System.out.println(tableToString);
         File file = new File(path + fileName + ".txt");

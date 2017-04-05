@@ -1,11 +1,13 @@
 package ua.com.juja.sqlweb.control.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ua.com.juja.sqlweb.model.DatabaseManager;
 import ua.com.juja.sqlweb.model.Table;
 import ua.com.juja.sqlweb.service.BackEndTie;
-import ua.com.juja.sqlweb.service.BackEndTieImpl;
 import ua.com.juja.sqlweb.service.SettingsHelper;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +17,14 @@ import java.util.ArrayList;
 
 public class MainServlet extends HttpServlet {
 
+    @Autowired
     private BackEndTie backEndTie;
 
     @Override
-    public void init() throws ServletException {
-        super.init();
-        backEndTie = new BackEndTieImpl();
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this,
+                config.getServletContext());
     }
 
     @Override
@@ -108,6 +112,8 @@ public class MainServlet extends HttpServlet {
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
         }
+
+
 
         if (action.startsWith("/CudQuery")) {
             String cudQuery = req.getParameter("CudQuery");

@@ -1,5 +1,8 @@
 package ua.com.juja.sqlweb.service;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class HelpList {
 
     public String connect = "\tКоманда для подключения к соответствующей БД\n";

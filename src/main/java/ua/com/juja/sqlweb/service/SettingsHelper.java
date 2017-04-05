@@ -1,7 +1,10 @@
 package ua.com.juja.sqlweb.service;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 
+@Component
 public class SettingsHelper {
 
     private void toSettings(String[] data, ArrayList<String[]> settings, int index) {

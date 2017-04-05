@@ -1,9 +1,11 @@
 package ua.com.juja.sqlweb.service;
 
+import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.model.Table;
 
 import java.util.ArrayList;
 
+@Component
 public class TableToString {
 
     public  String tableTS (Table table){

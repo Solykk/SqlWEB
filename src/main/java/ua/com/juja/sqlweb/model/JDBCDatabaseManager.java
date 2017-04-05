@@ -1,19 +1,23 @@
 package ua.com.juja.sqlweb.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.service.Query;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Locale;
 
+@Component
 public class  JDBCDatabaseManager implements DatabaseManager{
 
     private Connection connection;
-    private final Query query = new Query();
+
+    @Autowired
+    private Query query;
 
     public JDBCDatabaseManager(){
         Locale.setDefault(Locale.ENGLISH);
-        this.connection = null;
     }
 
     @Override
@@ -134,7 +138,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
 
     @Override
     public void drop(String tableName) throws SQLException, NullPointerException{
-        statExecUpdate("DROP TABLE " + tableName);
+        statExecUpdate(query.dropTableQuery(tableName));
     }
 
     @Override
@@ -144,7 +148,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
 
     @Override
     public void clear(String tableName) throws SQLException, NullPointerException {
-        statExecUpdate("DELETE " + tableName);
+        statExecUpdate(query.clearTableQuery(tableName));
     }
 
     @Override

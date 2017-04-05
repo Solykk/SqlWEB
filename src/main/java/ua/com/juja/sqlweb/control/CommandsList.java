@@ -26,7 +26,6 @@ public class CommandsList {
         commands.add(new Update(helpList));
         commands.add(new ReadQuery(helpList));
         commands.add(new CudQuery(helpList));
-        commands.add(new History(helpList));
     }
     public ArrayList<Command> getCommands() {
         return commands;

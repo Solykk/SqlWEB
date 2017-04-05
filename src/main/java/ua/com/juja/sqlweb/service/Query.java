@@ -1,9 +1,11 @@
 package ua.com.juja.sqlweb.service;
 
+import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.model.ColumnData;
 
 import java.util.ArrayList;
 
+@Component
 public class Query {
 
     public String insertQuery(String tableName, ArrayList<String[]> nameDate, boolean idKey){
@@ -149,6 +151,14 @@ public class Query {
 
     public String getColNQuery(String tableName){
         return "SELECT COLUMN_NAME FROM USER_TAB_COLUMNS WHERE TABLE_NAME = " + "'" + tableName + "'";
+    }
+
+    public String clearTableQuery(String tableName){
+        return "DELETE " + tableName;
+    }
+
+    public String dropTableQuery(String tableName){
+        return "DROP TABLE " + tableName;
     }
 
     public ArrayList<ColumnData> columnNameRes() {
