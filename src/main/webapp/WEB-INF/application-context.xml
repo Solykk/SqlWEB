@@ -12,7 +12,7 @@
     <context:component-scan base-package="ua.com.juja.sqlweb.model"/>
 
     <bean id="databaseManagerFactory" class="ua.com.juja.sqlweb.service.DatabaseManagerFactoryImpl">
-        <property name="className" value="ua.com.juja.sqlcmd.model.JDBCDatabaseManager"/>
+        <property name="className" value="ua.com.juja.sqlweb.model.JDBCDatabaseManager"/>
     </bean>
 
 </beans>
