@@ -14,20 +14,18 @@ public class  JDBCDatabaseManager implements DatabaseManager{
 
     private Connection connection;
 
-    @Autowired
-    private Query query;
-
-    public Query getQuery() {
-        return query;
-    }
-
     public void setQuery(Query query) {
         this.query = query;
+    }
+    public Query getQuery() {
+        return query;
     }
 
     public JDBCDatabaseManager(){
         Locale.setDefault(Locale.ENGLISH);
     }
+    @Autowired
+    private Query query;
 
     @Override
     public void connect(String ipAddress, String userName, String dbPassword) throws SQLException{

@@ -17,10 +17,12 @@ import java.util.ArrayList;
 public class BackEndTieImpl implements BackEndTie {
 
     @Autowired
-    private DatabaseManagerFactory factory;
+    private DatabaseManager manager;
 
     @Autowired
     private Services services;
+
+    public BackEndTieImpl(){}
 
     @Override
     public Services getServices() {
@@ -34,7 +36,6 @@ public class BackEndTieImpl implements BackEndTie {
 
     @Override
     public DatabaseManager connect(String ipAddress, String userName, String password) throws SQLException {
-        DatabaseManager manager = factory.createDatabaseManager();
         manager.connect(ipAddress, userName, password);
         return manager;
     }

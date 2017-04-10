@@ -1,7 +1,5 @@
 package ua.com.juja.sqlweb.model;
 
-import ua.com.juja.sqlweb.service.Query;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 
