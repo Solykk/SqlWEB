@@ -14,16 +14,10 @@ public class  JDBCDatabaseManager implements DatabaseManager{
 
     private Connection connection;
 
-    public void setQuery(Query query) {
-        this.query = query;
-    }
-    public Query getQuery() {
-        return query;
-    }
-
     public JDBCDatabaseManager(){
         Locale.setDefault(Locale.ENGLISH);
     }
+
     @Autowired
     private Query query;
 
@@ -179,6 +173,13 @@ public class  JDBCDatabaseManager implements DatabaseManager{
     @Override
     public void disconnect() {
         connection = null;
+    }
+
+    public void setQuery(Query query) {
+        this.query = query;
+    }
+    public Query getQuery() {
+        return query;
     }
 
     private void statExecUpdate(String query) throws SQLException, NullPointerException{
