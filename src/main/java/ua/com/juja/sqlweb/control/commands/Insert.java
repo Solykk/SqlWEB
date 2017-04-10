@@ -1,25 +1,17 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Insert implements Command {
-
-    private String commandName;
-    private String description;
-
-    public Insert(HelpList helpList) {
-        this.commandName = "Insert";
-        this.description = helpList.insert;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "Insert";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return "\tКоманда для вставки одной строки в заданную таблицу\n";
     }
-
 }

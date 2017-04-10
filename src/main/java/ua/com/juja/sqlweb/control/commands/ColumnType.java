@@ -1,25 +1,20 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ColumnType implements Command {
-
-    private String commandName;
-    private String description;
-
-    public ColumnType(HelpList helpList) {
-        this.commandName = "ColumnType";
-        this.description = helpList.columntype;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "ColumnType";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return  "\tКоманда выводит  колоноку, \n" +
+                "\t\t\t\t\tтип данных для соответсвующей колонки, \n" +
+                "\t\t\t\t\tвозможность содержать null значение соответсвующей колонки\n" +
+                "\t\tв запрашиваемой таблице.\n";
     }
-
 }

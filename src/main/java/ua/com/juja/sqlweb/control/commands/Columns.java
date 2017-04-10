@@ -1,25 +1,18 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Columns implements Command {
-
-    private String commandName;
-    private String description;
-
-    public Columns(HelpList helpList) {
-        this.commandName = "Columns";
-        this.description = helpList.columns;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "Columns";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return  "\tКоманда выводит список всех колонок  \n" +
+                "\t\tсодержащихся в запрашиваемой таблице.\n";
     }
-
 }

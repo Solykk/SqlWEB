@@ -1,25 +1,17 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Find implements Command {
-
-    private String commandName;
-    private String description;
-
-    public Find(HelpList helpList) {
-        this.commandName = "Find";
-        this.description = helpList.find;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "Find";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return "\tКоманда для получения содержимого указанной таблицы\n";
     }
-
 }

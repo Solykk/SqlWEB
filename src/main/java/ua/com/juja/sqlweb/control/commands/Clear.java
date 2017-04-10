@@ -1,25 +1,17 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Clear implements Command {
-
-    private String commandName;
-    private String description;
-
-    public Clear(HelpList helpList) {
-        this.commandName = "Clear";
-        this.description = helpList.clear;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "Clear";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return "\tКоманда создает новую таблицу с заданными полями\n";
     }
-
 }

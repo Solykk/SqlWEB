@@ -33,7 +33,7 @@ public class MainServlet extends HttpServlet {
         String action = getAction(req);
 
         if (action.startsWith("/index")){
-            req.setAttribute("items", backEndTie.commandsList());
+            req.setAttribute("items", backEndTie.getCommandsList());
             req.getSession().removeAttribute("table");
             req.getSession().removeAttribute("count");
             req.getRequestDispatcher("index.jsp").forward(req, resp);

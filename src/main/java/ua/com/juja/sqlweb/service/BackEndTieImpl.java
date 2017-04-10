@@ -22,6 +22,9 @@ public class BackEndTieImpl implements BackEndTie {
     @Autowired
     private Services services;
 
+    @Autowired
+    private CommandsList commandsList;
+
     public BackEndTieImpl(){}
 
     @Override
@@ -30,8 +33,8 @@ public class BackEndTieImpl implements BackEndTie {
     }
 
     @Override
-    public ArrayList<Command> commandsList() {
-        return new CommandsList(services.getHelpList()).getCommands();
+    public ArrayList<Command> getCommandsList() {
+        return commandsList.getCommands();
     }
 
     @Override

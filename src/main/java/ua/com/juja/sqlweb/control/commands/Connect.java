@@ -1,25 +1,17 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Connect implements Command {
-
-    private String commandName;
-    private String description;
-
-    public Connect(HelpList helpList) {
-        this.commandName = "Connect";
-        this.description = helpList.connect;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "Connect";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return "\tКоманда для подключения к соответствующей БД\n";
     }
-
 }

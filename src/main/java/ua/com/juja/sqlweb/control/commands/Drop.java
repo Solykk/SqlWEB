@@ -1,25 +1,17 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Drop implements Command {
-
-    private String commandName;
-    private String description;
-
-    public Drop(HelpList helpList) {
-        this.commandName = "Drop";
-        this.description = helpList.drop;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "Drop";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return "\tКоманда удаляет заданную таблицу\n";
     }
-
 }

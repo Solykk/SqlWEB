@@ -1,25 +1,17 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Delete implements Command {
-
-    private String commandName;
-    private String description;
-
-    public Delete(HelpList helpList) {
-        this.commandName = "Delete";
-        this.description = helpList.delete;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "Delete";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return "\tКоманда удаляет одну или несколько записей для которых соблюдается условие column = value\n";
     }
-
 }

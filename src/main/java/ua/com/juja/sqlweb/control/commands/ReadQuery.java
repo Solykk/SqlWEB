@@ -1,25 +1,17 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ReadQuery implements Command {
-
-    private String commandName;
-    private String description;
-
-    public ReadQuery(HelpList helpList) {
-        this.commandName = "ReadQuery";
-        this.description = helpList.readQuery;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "ReadQuery";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return "\tКоманда для ввода SQL запроса\n" + "(Только чтение из БД)";
     }
-
 }

@@ -12,9 +12,6 @@ public class Services {
     @Autowired
     private SettingsHelper settingsHelper;
 
-    @Autowired
-    private HelpList helpList;
-
     public TableToString getTableToString() {
         return tableToString;
     }
@@ -29,14 +26,6 @@ public class Services {
 
     public void setSettingsHelper(SettingsHelper settingsHelper) {
         this.settingsHelper = settingsHelper;
-    }
-
-    public HelpList getHelpList() {
-        return helpList;
-    }
-
-    public void setHelpList(HelpList helpList) {
-        this.helpList = helpList;
     }
 
 }

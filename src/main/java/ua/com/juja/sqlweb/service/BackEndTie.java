@@ -12,7 +12,7 @@ public interface BackEndTie {
 
     Services getServices();
 
-    ArrayList<Command> commandsList();
+    ArrayList<Command> getCommandsList();
 
     DatabaseManager connect(String databaseName, String userName, String password) throws SQLException;
 

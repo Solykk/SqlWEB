@@ -1,25 +1,17 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Update implements Command {
-
-    private String commandName;
-    private String description;
-
-    public Update(HelpList helpList) {
-        this.commandName = "Update";
-        this.description = helpList.update;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "Update";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return "\tКоманда обновит запись, установив значение column2 = value2, для которой соблюдается условие column1 = value1\n";
     }
-
 }

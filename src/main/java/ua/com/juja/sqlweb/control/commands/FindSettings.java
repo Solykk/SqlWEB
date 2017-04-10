@@ -1,25 +1,17 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class FindSettings implements Command {
-
-    private String commandName;
-    private String description;
-
-    public FindSettings(HelpList helpList) {
-        this.commandName = "FSettings";
-        this.description = helpList.findsettings;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "FSettings";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return "\tКоманда для получения содержимого указанной таблицы по определенным критериям\n";
     }
-
 }

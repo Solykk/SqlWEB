@@ -1,25 +1,17 @@
 package ua.com.juja.sqlweb.control.commands;
 
-import ua.com.juja.sqlweb.service.HelpList;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CudQuery implements Command {
-
-    private String commandName;
-    private String description;
-
-    public CudQuery(HelpList helpList) {
-        this.commandName = "CudQuery";
-        this.description = helpList.cudQuery;
-    }
 
     @Override
     public String getCommandName() {
-        return commandName;
+        return "CudQuery";
     }
 
     @Override
     public String getDescription() {
-        return description;
+        return "\tКоманда для ввода SQL запроса\n" + "Для внесения изменений в БД";
     }
-
 }
