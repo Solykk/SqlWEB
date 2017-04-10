@@ -10,7 +10,26 @@
     <context:annotation-config/>
     <context:component-scan base-package="ua.com.juja.sqlweb.service"/>
     <context:component-scan base-package="ua.com.juja.sqlweb.model"/>
-    <context:component-scan base-package="ua.com.juja.sqlweb.control"/>
 
-
+    <bean class="ua.com.juja.sqlweb.control.CommandsList" id="commandsList">
+        <constructor-arg>
+            <array>
+                <bean class="ua.com.juja.sqlweb.control.commands.Connect" />
+                <bean class="ua.com.juja.sqlweb.control.commands.Tables" />
+                <bean class="ua.com.juja.sqlweb.control.commands.Columns" />
+                <bean class="ua.com.juja.sqlweb.control.commands.TableType" />
+                <bean class="ua.com.juja.sqlweb.control.commands.ColumnType" />
+                <bean class="ua.com.juja.sqlweb.control.commands.Find" />
+                <bean class="ua.com.juja.sqlweb.control.commands.FindSettings" />
+                <bean class="ua.com.juja.sqlweb.control.commands.Clear" />
+                <bean class="ua.com.juja.sqlweb.control.commands.Create" />
+                <bean class="ua.com.juja.sqlweb.control.commands.Delete" />
+                <bean class="ua.com.juja.sqlweb.control.commands.Drop" />
+                <bean class="ua.com.juja.sqlweb.control.commands.Insert" />
+                <bean class="ua.com.juja.sqlweb.control.commands.Update" />
+                <bean class="ua.com.juja.sqlweb.control.commands.ReadQuery" />
+                <bean class="ua.com.juja.sqlweb.control.commands.CudQuery" />
+            </array>
+        </constructor-arg>
+    </bean>
 </beans>
