@@ -6,6 +6,8 @@ public class DatabaseManagerFactoryImpl implements DatabaseManagerFactory{
 
     private String className;
 
+    private Query query;
+
     @Override
     public DatabaseManager createDatabaseManager() {
         try {
@@ -19,7 +21,7 @@ public class DatabaseManagerFactoryImpl implements DatabaseManagerFactory{
         this.className = className;
     }
 
-
-
-
+    public void setQuery(Query query) {
+        this.query = query;
+    }
 }

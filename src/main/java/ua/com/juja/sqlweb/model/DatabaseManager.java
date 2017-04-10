@@ -1,5 +1,7 @@
 package ua.com.juja.sqlweb.model;
 
+import ua.com.juja.sqlweb.service.Query;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -28,7 +30,6 @@ public interface DatabaseManager {
     void cudQuery(String query)throws SQLException, NullPointerException;
     Table readQuery(String query)throws SQLException, NullPointerException;
 
-    boolean isConnected();
     void disconnect();
 
 }

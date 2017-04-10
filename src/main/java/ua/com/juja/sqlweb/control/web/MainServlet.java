@@ -45,6 +45,7 @@ public class MainServlet extends HttpServlet {
                 req.setAttribute("table", table);
                 req.getRequestDispatcher("tables.jsp").forward(req, resp);
             } catch (Exception e) {
+                e.printStackTrace();
                 req.setAttribute("message", e.getMessage());
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
@@ -112,8 +113,6 @@ public class MainServlet extends HttpServlet {
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
         }
-
-
 
         if (action.startsWith("/CudQuery")) {
             String cudQuery = req.getParameter("CudQuery");
@@ -214,20 +213,8 @@ public class MainServlet extends HttpServlet {
         }
 
         if (action.startsWith("/FSettings")) {
-
             if(req.getParameter("add") != null){
-                Integer counter = 2;
-                if(req.getSession().getAttribute("count") != null) {
-                    counter += (Integer) req.getSession().getAttribute("count");
-                }
-                req.getSession().setAttribute("count", counter);
-                Integer count = (Integer) req.getSession().getAttribute("count");
-                int[] array = new int [count];
-                for (int i = 0; i < array.length; i++){
-                    array[i] = i;
-                }
-                req.setAttribute("inputVal", array);
-                req.getRequestDispatcher("findsettings.jsp").forward(req, resp);
+                addInput(req, resp, 2, "findsettings.jsp");
                 return;
             }
 
@@ -253,7 +240,6 @@ public class MainServlet extends HttpServlet {
 
         if (action.startsWith("/Drop")) {
             String tableName = req.getParameter("TableName");
-
             try {
                 backEndTie.drop((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
                 resp.sendRedirect(resp.encodeRedirectURL("drop.jsp"));
@@ -265,7 +251,6 @@ public class MainServlet extends HttpServlet {
 
         if (action.startsWith("/Clear")) {
             String tableName = req.getParameter("TableName");
-
             try {
                 backEndTie.clear((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
                 resp.sendRedirect(resp.encodeRedirectURL("clear.jsp"));
@@ -275,21 +260,11 @@ public class MainServlet extends HttpServlet {
             }
         }
 
-        if (action.startsWith("/Create")) {
 
+
+        if (action.startsWith("/Create")) {
             if(req.getParameter("add") != null){
-                Integer counter = 1;
-                if(req.getSession().getAttribute("count") != null) {
-                    counter += (Integer) req.getSession().getAttribute("count");
-                }
-                req.getSession().setAttribute("count", counter);
-                Integer count = (Integer) req.getSession().getAttribute("count");
-                ArrayList<Integer> array = new ArrayList<>();
-                for (int i = 0; i < count; i++){
-                    array.add(i);
-                }
-                req.setAttribute("inputVal", array);
-                req.getRequestDispatcher("create.jsp").forward(req, resp);
+                addInput(req, resp, 1, "create.jsp");
                 return;
             }
 
@@ -335,35 +310,24 @@ public class MainServlet extends HttpServlet {
         }
 
         if (action.startsWith("/Insert")) {
-
             if(req.getParameter("add") != null){
-                Integer counter = 2;
-                if(req.getSession().getAttribute("count") != null) {
-                    counter += (Integer) req.getSession().getAttribute("count");
-                }
-                req.getSession().setAttribute("count", counter);
-                Integer count = (Integer) req.getSession().getAttribute("count");
-                int[] array = new int [count];
-                for (int i = 0; i < array.length; i++){
-                    array[i] = i;
-                }
-                req.setAttribute("inputVal", array);
-                req.getRequestDispatcher("insert.jsp").forward(req, resp);
+                addInput(req, resp, 2, "insert.jsp");
                 return;
             }
 
-            SettingsHelper settingsHelper = backEndTie.getServices().getSettingsHelper();
+            String tableName = req.getParameter("TableName");
             String columnNamePK = req.getParameter("ColumnNamePK");
             String[] array = req.getParameterValues("settings[]");
-            ArrayList<String[]> settings = new ArrayList<>();
+            SettingsHelper settingsHelper = backEndTie.getServices().getSettingsHelper();
             boolean isKey = false;
+
+            ArrayList<String[]> settings = new ArrayList<>();
             if(req.getParameter("isKey") != null){
                 isKey = true;
                 settings.add(new String[]{columnNamePK, ""});
             }
 
             settings = settingsHelper.addSettings(array, settings);
-            String tableName = req.getParameter("TableName");
 
             try {
                 backEndTie.insert((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings, isKey);
@@ -380,20 +344,8 @@ public class MainServlet extends HttpServlet {
         }
 
         if (action.startsWith("/Delete")) {
-
             if(req.getParameter("add") != null){
-                Integer counter = 2;
-                if(req.getSession().getAttribute("count") != null) {
-                    counter += (Integer) req.getSession().getAttribute("count");
-                }
-                req.getSession().setAttribute("count", counter);
-                Integer count = (Integer) req.getSession().getAttribute("count");
-                int[] array = new int [count];
-                for (int i = 0; i < array.length; i++){
-                    array[i] = i;
-                }
-                req.setAttribute("inputVal", array);
-                req.getRequestDispatcher("delete.jsp").forward(req, resp);
+                addInput(req, resp, 2, "delete.jsp");
                 return;
             }
 
@@ -416,20 +368,8 @@ public class MainServlet extends HttpServlet {
         }
 
         if (action.startsWith("/Update")) {
-
             if(req.getParameter("add") != null){
-                Integer counter = 2;
-                if(req.getSession().getAttribute("count") != null) {
-                    counter += (Integer) req.getSession().getAttribute("count");
-                }
-                req.getSession().setAttribute("count", counter);
-                Integer count = (Integer) req.getSession().getAttribute("count");
-                int[] array = new int [count];
-                for (int i = 0; i < array.length; i++){
-                    array[i] = i;
-                }
-                req.setAttribute("inputVal", array);
-                req.getRequestDispatcher("update.jsp").forward(req, resp);
+                addInput(req, resp, 2, "update.jsp");
                 return;
             }
 
@@ -460,6 +400,20 @@ public class MainServlet extends HttpServlet {
                 req.getRequestDispatcher("error.jsp").forward(req, resp);
             }
         }
+    }
+
+    private void addInput(HttpServletRequest req, HttpServletResponse resp, Integer counter, String jspName) throws ServletException, IOException {
+        if(req.getSession().getAttribute("count") != null) {
+            counter += (Integer) req.getSession().getAttribute("count");
+        }
+        req.getSession().setAttribute("count", counter);
+        Integer count = (Integer) req.getSession().getAttribute("count");
+        ArrayList<Integer> array = new ArrayList<>();
+        for (int i = 0; i < count; i++){
+            array.add(i);
+        }
+        req.setAttribute("inputVal", array);
+        req.getRequestDispatcher(jspName).forward(req, resp);
     }
 
     private String getAction(HttpServletRequest req) {

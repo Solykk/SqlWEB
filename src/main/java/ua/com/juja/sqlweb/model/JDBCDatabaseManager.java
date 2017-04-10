@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.service.Query;
 
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -15,6 +16,14 @@ public class  JDBCDatabaseManager implements DatabaseManager{
 
     @Autowired
     private Query query;
+
+    public Query getQuery() {
+        return query;
+    }
+
+    public void setQuery(Query query) {
+        this.query = query;
+    }
 
     public JDBCDatabaseManager(){
         Locale.setDefault(Locale.ENGLISH);
@@ -167,11 +176,6 @@ public class  JDBCDatabaseManager implements DatabaseManager{
 
             return new Table( "Your Query", getDataRead(resultSet, rsMetaData, lengthOfCol));
         }
-    }
-
-    @Override
-    public boolean isConnected() {
-        return connection != null;
     }
 
     @Override
