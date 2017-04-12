@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class BackEndTieImpl implements BackEndTie {
@@ -34,7 +35,7 @@ public class BackEndTieImpl implements BackEndTie {
     }
 
     @Override
-    public ArrayList<Command> getCommandsList() {
+    public List<Command> getCommandsList() {
         return commandsList.getCommands();
     }
 

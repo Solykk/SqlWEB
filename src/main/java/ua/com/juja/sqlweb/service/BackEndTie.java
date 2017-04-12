@@ -7,12 +7,13 @@ import ua.com.juja.sqlweb.model.Table;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface BackEndTie {
 
     Services getServices();
 
-    ArrayList<Command> getCommandsList();
+    List<Command> getCommandsList();
 
     DatabaseManager connect(String databaseName, String userName, String password) throws SQLException;
 

@@ -1,8 +1,10 @@
 package ua.com.juja.sqlweb.control.commands;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
+@Order(5)
 public class ColumnType implements Command {
 
     @Override

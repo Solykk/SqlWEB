@@ -1,12 +1,17 @@
 package ua.com.juja.sqlweb.control;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.control.commands.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
+@Component
 public class CommandsList {
 
-    private ArrayList<Command> commands;
+    @Autowired
+    private List<Command> commands;
 
     public  CommandsList(){}
 
@@ -17,7 +22,7 @@ public class CommandsList {
         }
     }
 
-    public ArrayList<Command> getCommands() {
+    public List<Command> getCommands() {
         return commands;
     }
 }
