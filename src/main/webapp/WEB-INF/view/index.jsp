@@ -7,7 +7,7 @@
 <body>
     <c:choose>
         <c:when test="${manager == null}">
-            <a href="Connect">Connect</a>
+            <a href="connect">Connect</a>
             <a>     Команда для подключения к соответствующей БД</a><br>
         </c:when>
         <c:otherwise>
