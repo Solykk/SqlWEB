@@ -1,7 +1,6 @@
 package ua.com.juja.sqlweb.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.control.CommandsList;
 import ua.com.juja.sqlweb.control.commands.Command;
