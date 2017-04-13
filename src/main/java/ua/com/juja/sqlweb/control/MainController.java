@@ -55,7 +55,7 @@ public class MainController {
     public String tables(HttpServletRequest req) {
         try {
             Table table = backEndTie.tables((DatabaseManager) req.getSession().getAttribute("manager"));
-            req.setAttribute("table", table);
+            req.getSession().setAttribute("table", table);
             return "tables";
         } catch (Exception e) {
             e.printStackTrace();
