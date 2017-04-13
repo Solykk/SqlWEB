@@ -5,7 +5,7 @@
     <title>Delete</title>
 </head>
 <body>
-<form action="Delete" method="post">
+<form action="celete" method="post">
     <table>
         <tr>
             <td>Table Name</td>

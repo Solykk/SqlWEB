@@ -5,7 +5,7 @@
     <title>Drop</title>
 </head>
 <body>
-<form action="Drop" method="post">
+<form action="drop" method="post">
     <table>
         <tr>
             <td>Table Name</td>

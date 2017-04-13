@@ -5,7 +5,7 @@
     <title>Clear</title>
 </head>
 <body>
-<form action="Clear" method="post">
+<form action="clear" method="post">
     <table>
         <tr>
             <td>Table Name</td>

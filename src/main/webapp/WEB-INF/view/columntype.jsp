@@ -5,7 +5,7 @@
     <title>ColumnType</title>
 </head>
 <body>
-<form action="ColumnType" method="post">
+<form action="columnType" method="post">
     <table>
         <tr>
             <td>Table Name</td>

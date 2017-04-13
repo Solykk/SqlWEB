@@ -26,7 +26,7 @@
     </tr>
     </tbody>
 </table>
-<form action="FileTable" method="post">
+<form action="fileTable" method="post">
     <table>
         <tr>
             <td>File Name</td>

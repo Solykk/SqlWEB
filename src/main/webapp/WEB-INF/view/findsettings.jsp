@@ -5,16 +5,14 @@
     <title>FindSettings</title>
 </head>
 <body>
-<form action="FSettings" method="post">
+<form action="fSettings" method="post">
     <table>
         <tr>
             <td>Table Name</td>
             <td><input type="text" name="TableName"/></td>
         </tr>
     </table>
-
 <table>
-
         <c:forEach items="${inputVal}" var="inputs">
             <c:choose>
                 <c:when test="${inputs%2 == 0}">
@@ -36,8 +34,6 @@
                 <td><input type="submit" value="Добавить поле" name="add"/></td>
             </tr>
             </table>
-
-
     <table>
         <tr>
             <td></td>

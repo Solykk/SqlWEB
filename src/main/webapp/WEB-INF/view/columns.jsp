@@ -5,7 +5,7 @@
         <title>Columns</title>
     </head>
     <body>
-        <form action="Columns" method="post">
+        <form action="columns" method="post">
             <table>
                 <tr>
                     <td>Table Name</td>

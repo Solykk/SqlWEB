@@ -29,7 +29,7 @@ public class MainController {
         return "index";
     }
 
-    @RequestMapping(value = "/connect", method = RequestMethod.GET)
+    @RequestMapping(value = "/Connect", method = RequestMethod.GET)
     public String connect() {
         return "connect";
     }
@@ -115,7 +115,7 @@ public class MainController {
         return "columntype";
     }
 
-    @RequestMapping(value = "/columntype", method = RequestMethod.POST)
+    @RequestMapping(value = "/columnType", method = RequestMethod.POST)
     public String columnTypeP(HttpServletRequest req, HttpServletResponse resp) {
         String tableName = req.getParameter("TableName");
         String columnName = req.getParameter("ColumnName");
@@ -146,7 +146,6 @@ public class MainController {
             Table table = backEndTie.find((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
-//            req.getRequestDispatcher("find.jsp").forward(req, resp);
             return "find";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
@@ -154,14 +153,13 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/Filetable", method = RequestMethod.GET)
+    @RequestMapping(value = "/FileTable", method = RequestMethod.GET)
     public String fileTable(HttpServletRequest req) {
-        req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
         return "filetable";
     }
 
-    @RequestMapping(value = "/filetable", method = RequestMethod.POST)
+    @RequestMapping(value = "/fileTable", method = RequestMethod.POST)
     public String fileTableP(HttpServletRequest req, HttpServletResponse resp) {
         String fileName = req.getParameter("FileName");
         String absolutePath = req.getParameter("AbsolutePath");
@@ -177,12 +175,12 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/Fsettings", method = RequestMethod.GET)
+    @RequestMapping(value = "/FSettings", method = RequestMethod.GET)
     public String findSettings(HttpServletRequest req) {
         return "findsettings";
     }
 
-    @RequestMapping(value = "/filetable", method = RequestMethod.POST)
+    @RequestMapping(value = "/fSettings", method = RequestMethod.POST)
     public String findSettingsP(HttpServletRequest req, HttpServletResponse resp) {
         if(req.getParameter("add") != null){
             addInput(req, resp, 2);
@@ -279,9 +277,34 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/Delete", method = RequestMethod.GET)
     public String delete(HttpServletRequest req) {
         return "delete";
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String deleteP(HttpServletRequest req, HttpServletResponse resp) {
+        if(req.getParameter("add") != null){
+            addInput(req, resp, 2);
+            return "delete";
+        }
+
+        String[] array = req.getParameterValues("settings[]");
+        String tableName = req.getParameter("TableName");
+        List<String[]> settings = new ArrayList<>();
+        for (int i = 0; i < array.length; ) {
+            settings.add(new String[]{array[i], array[i + 1]});
+            i += 2;
+        }
+
+        try {
+            backEndTie.delete((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings);
+            req.getSession().removeAttribute("count");
+            return "delete";
+        } catch (Exception e) {
+            req.setAttribute("message", e.getMessage());
+            return "error";
+        }
     }
 
     @RequestMapping(value = "/Drop", method = RequestMethod.GET)
@@ -341,19 +364,53 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/Update", method = RequestMethod.GET)
     public String update(HttpServletRequest req) {
         return "update";
     }
 
-    @RequestMapping(value = "/readquery", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateP(HttpServletRequest req, HttpServletResponse resp) {
+        if(req.getParameter("add") != null){
+            addInput(req, resp, 2);
+            return "update";
+        }
+
+        String tableName = req.getParameter("TableName");
+        String[] arrayFor = req.getParameterValues("settingsFor[]");
+        List<String[]> forUpdate = new ArrayList<>();
+        for (int i = 0; i < arrayFor.length; ) {
+            forUpdate.add(new String[]{arrayFor[i], arrayFor[i + 1]});
+            i += 2;
+        }
+        String[] arrayHow = req.getParameterValues("settingsHow[]");
+        List<String[]> howUpdate  = new ArrayList<>();
+        for (int i = 0; i < arrayHow .length; ) {
+            howUpdate .add(new String[]{arrayHow [i], arrayHow [i + 1]});
+            i += 2;
+        }
+
+        try {
+            backEndTie.update((DatabaseManager) req.getSession().getAttribute("manager"), tableName, howUpdate, forUpdate);
+            Table table = backEndTie.findSettings((DatabaseManager) req.getSession().getAttribute("manager"), tableName, howUpdate);
+            req.getSession().setAttribute("table", table);
+            req.setAttribute("table", table);
+            req.getSession().removeAttribute("count");
+            return "update";
+        } catch (Exception e) {
+            req.setAttribute("message", e.getMessage());
+            return "error";
+        }
+    }
+
+    @RequestMapping(value = "/ReadQuery", method = RequestMethod.GET)
     public String readQuery(HttpServletRequest req) {
         req.getSession().removeAttribute("count");
         req.getSession().removeAttribute("table");
         return "readquery";
     }
 
-    @RequestMapping(value = "/ReadQuery", method = RequestMethod.POST)
+    @RequestMapping(value = "/readquery", method = RequestMethod.POST)
     public String readQueryP(HttpServletRequest req, HttpServletResponse resp) {
         String readQuery = req.getParameter("readQuery");
 
@@ -367,7 +424,8 @@ public class MainController {
             return "error";
         }
     }
-    @RequestMapping(value = "/cudquery", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/CudQuery", method = RequestMethod.GET)
     public String cudQuery(HttpServletRequest req) {
         return "cudquery";
     }

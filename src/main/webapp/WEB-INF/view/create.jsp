@@ -5,7 +5,7 @@
     <title>Create</title>
 </head>
 <body>
-<form action="Create" method="post">
+<form action="create" method="post">
     <table>
         <tr>
             <td>Table Name</td>

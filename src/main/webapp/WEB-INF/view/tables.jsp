@@ -8,7 +8,7 @@
               href="<s:url value="resources/dalek.png"/>" />
     </head>
     <body>
-        <form action="tables" method="get">
+        <%--<form action="tables" method="get"></form>--%>
             <c:choose>
                 <c:when test="${table == null}">
                 </c:when>
@@ -44,7 +44,6 @@
                     </form>
                 </c:otherwise>
             </c:choose>
-        </form>
         <%@include file="footer.jsp" %>
     </body>
 </html>

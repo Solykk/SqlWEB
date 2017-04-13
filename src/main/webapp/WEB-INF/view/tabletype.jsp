@@ -5,7 +5,7 @@
     <title>TableType</title>
 </head>
 <body>
-<form action="TableType" method="post">
+<form action="tabletype" method="post">
     <table>
         <tr>
             <td>Table Name</td>

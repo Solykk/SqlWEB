@@ -5,7 +5,7 @@
     <title>ReadQuery</title>
 </head>
 <body>
-    <form action="ReadQuery" method="post">
+    <form action="readquery" method="post">
         <p><b>Введита Ваш SQL запрос</b></p>
         <p><textarea rows="10" cols="45" name="readQuery"></textarea></p>
         <p><input type="submit" value="Отправить"></p>

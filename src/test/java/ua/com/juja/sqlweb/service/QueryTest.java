@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,7 +20,7 @@ public class QueryTest {
     @Test
     public void test_insertQueryTrue(){
 
-        ArrayList<String[]> settings = new ArrayList<>();
+        List<String[]> settings = new ArrayList<>();
         settings.add(new String[]{"TEST", " "});
         settings.add(new String[]{"TEST1", "35"});
         settings.add(new String[]{"TEST2", "World"});
@@ -32,7 +33,7 @@ public class QueryTest {
     @Test
     public void test_insertQueryFalse(){
 
-        ArrayList<String[]> settings = new ArrayList<>();
+        List<String[]> settings = new ArrayList<>();
         settings.add(new String[]{"TEST", "'Hello'"});
         settings.add(new String[]{"TEST1", "35"});
         settings.add(new String[]{"TEST2", "World"});
@@ -58,7 +59,7 @@ public class QueryTest {
 
     @Test
     public void test_createWPKQuery(){
-        ArrayList<String> settings = new ArrayList<>();
+        List<String> settings = new ArrayList<>();
         settings.add("TEST VARCHAR2(20 BYTE) NOT NULL");
         settings.add("TEST1  NUMBER (10) NOT NULL");
         settings.add("TEST2  VARCHAR2 (10 BYTE) NULL");
@@ -70,11 +71,11 @@ public class QueryTest {
 
     @Test
     public void test_updateQuery(){
-        ArrayList<String[]> forUpdate = new ArrayList<>();
+        List<String[]> forUpdate = new ArrayList<>();
         forUpdate.add(new String[]{"TEST", "'Hello'"});
         forUpdate.add(new String[]{"TEST", "'World'"});
 
-        ArrayList<String[]> howUpdate = new ArrayList<>();
+        List<String[]> howUpdate = new ArrayList<>();
         howUpdate.add(new String[]{"TEST", "'Good'"});
         howUpdate.add(new String[]{"TEST", "'Luck'"});
 
@@ -84,7 +85,7 @@ public class QueryTest {
 
     @Test
     public void test_deleteQuery(){
-        ArrayList<String[]> settings = new ArrayList<>();
+        List<String[]> settings = new ArrayList<>();
         settings.add(new String[]{"TEST", "'Hello'"});
         settings.add(new String[]{"TEST", "'World'"});
 
@@ -94,7 +95,7 @@ public class QueryTest {
 
     @Test
     public void test_readSetQuery(){
-        ArrayList<String[]> settings = new ArrayList<>();
+        List<String[]> settings = new ArrayList<>();
         settings.add(new String[]{"TEST", "'Hello'"});
         settings.add(new String[]{"TEST", "'World'"});
 
