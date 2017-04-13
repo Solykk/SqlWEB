@@ -5,7 +5,7 @@
         <title>SQLCmd</title>
     </head>
     <body>
-        <form action="Connect" method="post">
+        <form action="connect" method="post">
             <table>
                 <tr>
                     <td>IPAddress</td>

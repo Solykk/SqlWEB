@@ -10,6 +10,7 @@ import ua.com.juja.sqlweb.model.Table;
 import ua.com.juja.sqlweb.service.BackEndTie;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class MainController {
@@ -25,9 +26,26 @@ public class MainController {
         return "index";
     }
 
-    @RequestMapping(value = "/Connect", method = RequestMethod.GET)
+    @RequestMapping(value = "/connect", method = RequestMethod.GET)
     public String connect() {
         return "connect";
+    }
+
+    @RequestMapping(value = "/connect", method = RequestMethod.POST)
+    public String connectP(HttpServletRequest req, HttpServletResponse resp) {
+        String ipAddress = req.getParameter("ipAddress");
+        String userName = req.getParameter("username");
+        String password = req.getParameter("password");
+
+        try {
+            DatabaseManager manager = backEndTie.connect(ipAddress, userName, password);
+            req.getSession().setAttribute("manager", manager);
+//            resp.sendRedirect(resp.encodeRedirectURL("index"));
+            return "index";
+        } catch (Exception e) {
+            req.setAttribute("message", e.getMessage());
+            return "error";
+        }
     }
 
     @RequestMapping(value = "/tables", method = RequestMethod.GET)
@@ -43,84 +61,84 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/Columns", method = RequestMethod.GET)
+    @RequestMapping(value = "/columns", method = RequestMethod.GET)
     public String columns(HttpServletRequest req) {
         req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
         return "columns";
     }
 
-    @RequestMapping(value = "/TableType", method = RequestMethod.GET)
+    @RequestMapping(value = "/tabletype", method = RequestMethod.GET)
     public String tableType(HttpServletRequest req) {
         req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
         return "tabletype";
     }
 
-    @RequestMapping(value = "/ColumnType", method = RequestMethod.GET)
+    @RequestMapping(value = "/columntype", method = RequestMethod.GET)
     public String columnType(HttpServletRequest req) {
         req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
         return "columntype";
     }
 
-    @RequestMapping(value = "/Find", method = RequestMethod.GET)
+    @RequestMapping(value = "/find", method = RequestMethod.GET)
     public String find(HttpServletRequest req) {
         req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
         return "find";
     }
 
-    @RequestMapping(value = "/FileTable", method = RequestMethod.GET)
+    @RequestMapping(value = "/filetable", method = RequestMethod.GET)
     public String fileTable(HttpServletRequest req) {
         req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
         return "filetable";
     }
 
-    @RequestMapping(value = "/FSettings", method = RequestMethod.GET)
+    @RequestMapping(value = "/fsettings", method = RequestMethod.GET)
     public String findSettings(HttpServletRequest req) {
         return "findsettings";
     }
 
-    @RequestMapping(value = "/Clear", method = RequestMethod.GET)
+    @RequestMapping(value = "/clear", method = RequestMethod.GET)
     public String clear(HttpServletRequest req) {
         return "clear";
     }
 
-    @RequestMapping(value = "/Create", method = RequestMethod.GET)
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(HttpServletRequest req) {
         return "create";
     }
 
-    @RequestMapping(value = "/Delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String delete(HttpServletRequest req) {
         return "delete";
     }
 
-    @RequestMapping(value = "/Drop", method = RequestMethod.GET)
+    @RequestMapping(value = "/drop", method = RequestMethod.GET)
     public String drop(HttpServletRequest req) {
         return "drop";
     }
 
-    @RequestMapping(value = "/Insert", method = RequestMethod.GET)
+    @RequestMapping(value = "/insert", method = RequestMethod.GET)
     public String insert(HttpServletRequest req) {
         return "insert";
     }
 
-    @RequestMapping(value = "/Update", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String update(HttpServletRequest req) {
         return "update";
     }
 
-    @RequestMapping(value = "/ReadQuery", method = RequestMethod.GET)
+    @RequestMapping(value = "/readquery", method = RequestMethod.GET)
     public String readQuery(HttpServletRequest req) {
         req.getSession().removeAttribute("count");
         req.getSession().removeAttribute("table");
         return "readquery";
     }
 
-    @RequestMapping(value = "/CudQuery", method = RequestMethod.GET)
+    @RequestMapping(value = "/cudquery", method = RequestMethod.GET)
     public String cudQuery(HttpServletRequest req) {
         return "cudquery";
     }
