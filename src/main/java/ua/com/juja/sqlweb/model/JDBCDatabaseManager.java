@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.service.Query;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -172,15 +171,8 @@ public class  JDBCDatabaseManager implements DatabaseManager{
     }
 
     @Override
-    public void disconnect() {
-        connection = null;
-    }
-
-    public void setQuery(Query query) {
-        this.query = query;
-    }
-    public Query getQuery() {
-        return query;
+    public boolean isConnect() {
+        return connection != null;
     }
 
     private void statExecUpdate(String query) throws SQLException, NullPointerException{

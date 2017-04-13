@@ -28,6 +28,5 @@ public interface DatabaseManager {
     void cudQuery(String query)throws SQLException, NullPointerException;
     Table readQuery(String query)throws SQLException, NullPointerException;
 
-    void disconnect();
-
+    boolean isConnect();
 }

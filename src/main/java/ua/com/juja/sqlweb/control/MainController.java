@@ -7,23 +7,39 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ua.com.juja.sqlweb.model.DatabaseManager;
 import ua.com.juja.sqlweb.model.Table;
-import ua.com.juja.sqlweb.service.BackEndTie;
+import ua.com.juja.sqlweb.service.Services;
 import ua.com.juja.sqlweb.service.SettingsHelper;
+import ua.com.juja.sqlweb.service.TableToString;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
 public class MainController {
 
     @Autowired
-    private BackEndTie backEndTie;
+    private DatabaseManager manager;
+
+    @Autowired
+    private Services services;
+
+    @Autowired
+    private CommandsList commandsList;
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(HttpServletRequest req) {
-        req.setAttribute("items", backEndTie.getCommandsList());
+        if(manager == null || !manager.isConnect()){
+            req.setAttribute("items", Arrays.asList(commandsList.getCommands().get(0)));
+        } else {
+            req.setAttribute("items", commandsList.getCommands());
+        }
         req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
         return "index";
@@ -35,16 +51,15 @@ public class MainController {
     }
 
     @RequestMapping(value = "/connect", method = RequestMethod.POST)
-    public String connectP(HttpServletRequest req, HttpServletResponse resp) {
+    public String connectP(HttpServletRequest req) {
         String ipAddress = req.getParameter("ipAddress");
         String userName = req.getParameter("username");
         String password = req.getParameter("password");
 
         try {
-            DatabaseManager manager = backEndTie.connect(ipAddress, userName, password);
+            manager.connect(ipAddress, userName, password);
             req.getSession().setAttribute("manager", manager);
-            resp.sendRedirect(resp.encodeRedirectURL("index"));
-            return "index";
+            return "redirect:index";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
             return "error";
@@ -54,11 +69,10 @@ public class MainController {
     @RequestMapping(value = "/Tables", method = RequestMethod.GET)
     public String tables(HttpServletRequest req) {
         try {
-            Table table = backEndTie.tables((DatabaseManager) req.getSession().getAttribute("manager"));
+            Table table = manager.getTableNames();
             req.getSession().setAttribute("table", table);
             return "tables";
         } catch (Exception e) {
-            e.printStackTrace();
             req.setAttribute("message", e.getMessage());
             return "error";
         }
@@ -72,11 +86,11 @@ public class MainController {
     }
 
     @RequestMapping(value = "/columns", method = RequestMethod.POST)
-    public String columnsP(HttpServletRequest req, HttpServletResponse resp) {
+    public String columnsP(HttpServletRequest req) {
             String tableName = req.getParameter("TableName");
 
         try {
-            Table table = backEndTie.columns((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+            Table table = manager.getColumnNames(tableName);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
             return "columns";
@@ -94,11 +108,11 @@ public class MainController {
     }
 
     @RequestMapping(value = "/tabletype", method = RequestMethod.POST)
-    public String tableTypeP(HttpServletRequest req, HttpServletResponse resp) {
+    public String tableTypeP(HttpServletRequest req) {
         String tableName = req.getParameter("TableName");
 
         try {
-            Table table = backEndTie.tableType((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+            Table table = manager.getAllTypeColumns(tableName);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
             return "tabletype";
@@ -116,12 +130,12 @@ public class MainController {
     }
 
     @RequestMapping(value = "/columnType", method = RequestMethod.POST)
-    public String columnTypeP(HttpServletRequest req, HttpServletResponse resp) {
+    public String columnTypeP(HttpServletRequest req) {
         String tableName = req.getParameter("TableName");
         String columnName = req.getParameter("ColumnName");
 
         try {
-            Table table = backEndTie.columnType((DatabaseManager) req.getSession().getAttribute("manager"), tableName, columnName);
+            Table table = manager.getTypeColumn(tableName, columnName);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
             return "columntype";
@@ -139,11 +153,11 @@ public class MainController {
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.POST)
-    public String findP(HttpServletRequest req, HttpServletResponse resp){
+    public String findP(HttpServletRequest req){
         String tableName = req.getParameter("TableName");
 
         try {
-            Table table = backEndTie.find((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+            Table table = manager.read(tableName);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
             return "find";
@@ -160,13 +174,13 @@ public class MainController {
     }
 
     @RequestMapping(value = "/fileTable", method = RequestMethod.POST)
-    public String fileTableP(HttpServletRequest req, HttpServletResponse resp) {
+    public String fileTableP(HttpServletRequest req) {
         String fileName = req.getParameter("FileName");
         String absolutePath = req.getParameter("AbsolutePath");
         Table table = (Table) req.getSession().getAttribute("table");
 
         try {
-            backEndTie.fileTable(fileName, table, absolutePath);
+            fileTable(fileName, table, absolutePath);
             req.getSession().removeAttribute("table");
             return "find";
         } catch (Exception e) {
@@ -176,14 +190,14 @@ public class MainController {
     }
 
     @RequestMapping(value = "/FSettings", method = RequestMethod.GET)
-    public String findSettings(HttpServletRequest req) {
+    public String findSettings() {
         return "findsettings";
     }
 
     @RequestMapping(value = "/fSettings", method = RequestMethod.POST)
-    public String findSettingsP(HttpServletRequest req, HttpServletResponse resp) {
+    public String findSettingsP(HttpServletRequest req) {
         if(req.getParameter("add") != null){
-            addInput(req, resp, 2);
+            addInput(req, 2);
             return "findsettings";
         }
 
@@ -196,7 +210,7 @@ public class MainController {
         }
 
         try {
-            Table table = backEndTie.findSettings((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings);
+            Table table = manager.readSet(tableName, settings);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
             req.getSession().removeAttribute("count");
@@ -208,15 +222,15 @@ public class MainController {
     }
 
     @RequestMapping(value = "/Clear", method = RequestMethod.GET)
-    public String clear(HttpServletRequest req) {
+    public String clear() {
         return "clear";
     }
 
     @RequestMapping(value = "/clear", method = RequestMethod.POST)
-    public String clearP(HttpServletRequest req, HttpServletResponse resp) {
+    public String clearP(HttpServletRequest req) {
         String tableName = req.getParameter("TableName");
         try {
-            backEndTie.clear((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+            manager.clear(tableName);
             return "clear";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
@@ -225,14 +239,14 @@ public class MainController {
     }
 
     @RequestMapping(value = "/Create", method = RequestMethod.GET)
-    public String create(HttpServletRequest req) {
+    public String create() {
         return "create";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createP(HttpServletRequest req, HttpServletResponse resp) {
+    public String createP(HttpServletRequest req) {
         if(req.getParameter("add") != null){
-            addInput(req, resp, 1);
+            addInput(req, 1);
             return "create";
         }
 
@@ -250,11 +264,11 @@ public class MainController {
             if(req.getParameter("StartWith") != null) {
                 startWith = Long.valueOf(req.getParameter("StartWith"));
             } else {
-                startWith = 1l;
+                startWith = 1L;
             }
         }
 
-        ArrayList<String> settings = new ArrayList<>();
+        List<String> settings = new ArrayList<>();
         for (int i = 0, k = 0; i < arraySt.length;) {
             String temp = arraySt[i] + " " + arraySt[i + 1];
             if((i != 0 && Integer.valueOf(arrayN[k]) == i/2)||(i == 0 && Integer.valueOf(arrayN[k]) == 0)){
@@ -268,7 +282,7 @@ public class MainController {
         }
 
         try {
-            backEndTie.create((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings, columnNamePK, startWith);
+            create(tableName, settings, columnNamePK, startWith);
             req.getSession().removeAttribute("count");
             return "create";
         } catch (Exception e) {
@@ -278,14 +292,14 @@ public class MainController {
     }
 
     @RequestMapping(value = "/Delete", method = RequestMethod.GET)
-    public String delete(HttpServletRequest req) {
+    public String delete() {
         return "delete";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String deleteP(HttpServletRequest req, HttpServletResponse resp) {
+    public String deleteP(HttpServletRequest req) {
         if(req.getParameter("add") != null){
-            addInput(req, resp, 2);
+            addInput(req, 2);
             return "delete";
         }
 
@@ -298,7 +312,7 @@ public class MainController {
         }
 
         try {
-            backEndTie.delete((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings);
+            manager.delete(tableName,settings);
             req.getSession().removeAttribute("count");
             return "delete";
         } catch (Exception e) {
@@ -308,15 +322,15 @@ public class MainController {
     }
 
     @RequestMapping(value = "/Drop", method = RequestMethod.GET)
-    public String drop(HttpServletRequest req) {
+    public String drop() {
         return "drop";
     }
 
     @RequestMapping(value = "/drop", method = RequestMethod.POST)
-    public String dropP(HttpServletRequest req, HttpServletResponse resp) {
+    public String dropP(HttpServletRequest req) {
         String tableName = req.getParameter("TableName");
         try {
-            backEndTie.drop((DatabaseManager) req.getSession().getAttribute("manager"), tableName);
+            manager.drop(tableName);
             return "drop";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
@@ -325,21 +339,21 @@ public class MainController {
     }
 
     @RequestMapping(value = "/Insert", method = RequestMethod.GET)
-    public String insert(HttpServletRequest req) {
+    public String insert() {
         return "insert";
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public String insertP(HttpServletRequest req, HttpServletResponse resp) {
+    public String insertP(HttpServletRequest req) {
         if(req.getParameter("add") != null){
-            addInput(req, resp, 2);
+            addInput(req, 2);
             return "insert";
         }
 
         String tableName = req.getParameter("TableName");
         String columnNamePK = req.getParameter("ColumnNamePK");
         String[] array = req.getParameterValues("settings[]");
-        SettingsHelper settingsHelper = backEndTie.getServices().getSettingsHelper();
+        SettingsHelper settingsHelper = services.getSettingsHelper();
         boolean isKey = false;
 
         List<String[]> settings = new ArrayList<>();
@@ -351,9 +365,9 @@ public class MainController {
         settings = settingsHelper.addSettings(array, settings);
 
         try {
-            backEndTie.insert((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings, isKey);
+            manager.insert(tableName, settings, isKey);
             settings.remove(0);
-            Table table = backEndTie.findSettings((DatabaseManager) req.getSession().getAttribute("manager"), tableName, settings);
+            Table table = manager.readSet(tableName, settings);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
             req.getSession().removeAttribute("count");
@@ -365,14 +379,14 @@ public class MainController {
     }
 
     @RequestMapping(value = "/Update", method = RequestMethod.GET)
-    public String update(HttpServletRequest req) {
+    public String update() {
         return "update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateP(HttpServletRequest req, HttpServletResponse resp) {
+    public String updateP(HttpServletRequest req) {
         if(req.getParameter("add") != null){
-            addInput(req, resp, 2);
+            addInput(req, 2);
             return "update";
         }
 
@@ -391,8 +405,8 @@ public class MainController {
         }
 
         try {
-            backEndTie.update((DatabaseManager) req.getSession().getAttribute("manager"), tableName, howUpdate, forUpdate);
-            Table table = backEndTie.findSettings((DatabaseManager) req.getSession().getAttribute("manager"), tableName, howUpdate);
+            manager.update(tableName, howUpdate, forUpdate);
+            Table table = manager.readSet(tableName, howUpdate);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
             req.getSession().removeAttribute("count");
@@ -411,11 +425,11 @@ public class MainController {
     }
 
     @RequestMapping(value = "/readquery", method = RequestMethod.POST)
-    public String readQueryP(HttpServletRequest req, HttpServletResponse resp) {
+    public String readQueryP(HttpServletRequest req) {
         String readQuery = req.getParameter("readQuery");
 
         try {
-            Table table = backEndTie.readQuery((DatabaseManager) req.getSession().getAttribute("manager"), readQuery);
+            Table table = manager.readQuery(readQuery);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
             return "readquery";
@@ -426,18 +440,17 @@ public class MainController {
     }
 
     @RequestMapping(value = "/CudQuery", method = RequestMethod.GET)
-    public String cudQuery(HttpServletRequest req) {
+    public String cudQuery() {
         return "cudquery";
     }
 
     @RequestMapping(value = "/cudquery", method = RequestMethod.POST)
-    public String cudQueryP(HttpServletRequest req, HttpServletResponse resp) {
+    public String cudQueryP(HttpServletRequest req) {
         String cudQuery = req.getParameter("CudQuery");
 
         try {
-            backEndTie.cudQuery((DatabaseManager) req.getSession().getAttribute("manager"), cudQuery);
-            resp.sendRedirect(resp.encodeRedirectURL("index"));
-            return "cudquery";
+            manager.cudQuery(cudQuery);
+            return "index";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
             return "error";
@@ -445,11 +458,11 @@ public class MainController {
     }
 
     @RequestMapping(value = "/error",  method = RequestMethod.GET)
-    public String error(HttpServletRequest req) {
+    public String error() {
         return "error";
     }
 
-    private void addInput(HttpServletRequest req, HttpServletResponse resp, Integer counter){
+    private void addInput(HttpServletRequest req, Integer counter){
         if(req.getSession().getAttribute("count") != null) {
             counter += (Integer) req.getSession().getAttribute("count");
         }
@@ -460,5 +473,27 @@ public class MainController {
                 array.add(i);
         }
         req.setAttribute("inputVal", array);
+    }
+
+    private void fileTable(String fileName, Table table, String path) throws IOException {
+        TableToString tTS = services.getTableToString();
+        String tableToString = tTS.tableTS(table);
+        File file = new File(path + fileName + ".txt");
+        if (file.createNewFile()) {
+            try (FileWriter writer = new FileWriter(path + fileName + ".txt")) {
+                writer.write(tableToString);
+                writer.flush();
+            }
+        }
+    }
+
+    private void create(String tableName, List<String> settings, String columnNamePK, Long startWith) throws SQLException {
+        manager.createWithoutPK(tableName, settings);
+        if(columnNamePK != null) {
+            manager.createCreatePK(tableName, columnNamePK);
+            if(startWith != null){
+                manager.createSequencePK(tableName, startWith);
+            }
+        }
     }
 }

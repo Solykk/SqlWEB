@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.control.commands.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -17,9 +18,7 @@ public class CommandsList {
 
     public CommandsList(Command ... command){
         this.commands = new ArrayList<>();
-        for (Command c: command) {
-            commands.add(c);
-        }
+        Collections.addAll(commands, command);
     }
 
     public List<Command> getCommands() {
