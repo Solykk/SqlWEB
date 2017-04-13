@@ -5,7 +5,7 @@
         <title>Find</title>
     </head>
     <body>
-    <form action="Find" method="post">
+    <form action="find" method="post">
         <table>
             <tr>
                 <td>Table Name</td>

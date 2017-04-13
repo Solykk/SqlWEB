@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.model.Table;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class TableToString {
@@ -13,7 +14,7 @@ public class TableToString {
         if(table == null) { return ""; }
 
         StringBuilder tableString = new StringBuilder();
-        ArrayList<Integer> maxLength = new ArrayList<>();
+        List<Integer> maxLength = new ArrayList<>();
         int lengthSum = calculatesLength(table, maxLength);
 
         char[] line = lineCreator(lengthSum);
@@ -45,7 +46,7 @@ public class TableToString {
 
     }
 
-    private void columnNameString(Table table, StringBuilder tableString, ArrayList<Integer> maxLength) {
+    private void columnNameString(Table table, StringBuilder tableString, List<Integer> maxLength) {
         for (int i = 0; i < table.getTableData().size(); i++){
 
             String columnName = table.getTableData().get(i).getColumnName();
@@ -61,7 +62,7 @@ public class TableToString {
         lineBreak(tableString);
     }
 
-    private void valueString(Table table, StringBuilder tableString, ArrayList<Integer> maxLength) {
+    private void valueString(Table table, StringBuilder tableString, List<Integer> maxLength) {
         for (int i = 0; i < table.getTableData().get(0).getValue().size(); i++){
 
             for (int j = 0; j < table.getTableData().size(); j++) {
@@ -98,7 +99,7 @@ public class TableToString {
         tableString.append("\n");
     }
 
-    private int calculatesLength(Table table, ArrayList<Integer> maxLength) {
+    private int calculatesLength(Table table, List<Integer> maxLength) {
 
         int lengthSum = 0;
         Integer tableNameLength = table.getTableName().length();

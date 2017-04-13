@@ -84,7 +84,7 @@ public class BackEndTieImpl implements BackEndTie {
     }
 
     @Override
-    public Table findSettings(DatabaseManager manager, String tableName, ArrayList<String[]> settings) throws SQLException {
+    public Table findSettings(DatabaseManager manager, String tableName, List<String[]> settings) throws SQLException {
         return manager.readSet(tableName, settings);
     }
 
@@ -94,7 +94,7 @@ public class BackEndTieImpl implements BackEndTie {
     }
 
     @Override
-    public void create(DatabaseManager manager, String tableName, ArrayList<String> settings, String columnNamePK, Long startWith) throws SQLException {
+    public void create(DatabaseManager manager, String tableName, List<String> settings, String columnNamePK, Long startWith) throws SQLException {
         manager.createWithoutPK(tableName, settings);
         if(columnNamePK != null) {
             manager.createCreatePK(tableName, columnNamePK);
@@ -105,7 +105,7 @@ public class BackEndTieImpl implements BackEndTie {
     }
 
     @Override
-    public void delete(DatabaseManager manager, String tableName, ArrayList<String[]> settings) throws SQLException {
+    public void delete(DatabaseManager manager, String tableName, List<String[]> settings) throws SQLException {
         manager.delete(tableName,settings);
     }
 
@@ -115,12 +115,12 @@ public class BackEndTieImpl implements BackEndTie {
     }
 
     @Override
-    public void insert(DatabaseManager manager, String tableName, ArrayList<String[]> settings, boolean isKey) throws SQLException {
+    public void insert(DatabaseManager manager, String tableName, List<String[]> settings, boolean isKey) throws SQLException {
         manager.insert(tableName, settings, isKey);
     }
 
     @Override
-    public void update(DatabaseManager manager, String tableName, ArrayList<String[]> forUpdate, ArrayList<String[]> howUpdate) throws SQLException {
+    public void update(DatabaseManager manager, String tableName, List<String[]> forUpdate, List<String[]> howUpdate) throws SQLException {
         manager.update(tableName, forUpdate, howUpdate);
     }
 

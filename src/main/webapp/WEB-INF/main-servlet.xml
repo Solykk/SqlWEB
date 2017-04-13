@@ -11,11 +11,10 @@
     <context:component-scan base-package="ua.com.juja.sqlweb.control" />
 
     <mvc:annotation-driven/>
-
     <mvc:resources mapping="/resources/**" location="/resources/" />
-    <mvc:resources mapping="/dalek.png" location="/resources/" />
+    <mvc:resources mapping="/resources/dalek.png" location="/resources/" />
 
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <bean name="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/" />
         <property name="suffix" value=".jsp" />
     </bean>

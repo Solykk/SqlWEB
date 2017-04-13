@@ -7,6 +7,7 @@ import ua.com.juja.sqlweb.service.Query;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @Component
@@ -41,7 +42,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
     @Override
     public Table getTableNames() throws SQLException, NullPointerException{
 
-        ArrayList<ColumnData> columnData = query.tableNameRes();
+        List<ColumnData> columnData = query.tableNameRes();
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query.tableNQuery()))
@@ -58,7 +59,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
     @Override
     public Table getColumnNames(String tableName) throws SQLException, NullPointerException {
 
-        ArrayList<ColumnData> columnDatas = query.columnNameRes();
+        List<ColumnData> columnDatas = query.columnNameRes();
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query.getColNQuery(tableName)))
@@ -75,7 +76,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
     @Override
     public Table getAllTypeColumns(String tableName) throws SQLException, NullPointerException{
 
-        ArrayList<ColumnData> columnDatas = query.columnData();
+        List<ColumnData> columnDatas = query.columnData();
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query.getAllTypCloQuery(tableName)))
@@ -88,7 +89,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
     @Override
     public Table getTypeColumn(String tableName, String columnName) throws SQLException, NullPointerException {
 
-        ArrayList<ColumnData> columnDatas = query.columnData();
+        List<ColumnData> columnDatas = query.columnData();
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query.getTypCloQuery(tableName, columnName)))
@@ -99,7 +100,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
     }
 
     @Override
-    public void createWithoutPK(String tableName, ArrayList<String> settings) throws SQLException, NullPointerException{
+    public void createWithoutPK(String tableName, List<String> settings) throws SQLException, NullPointerException{
         statExecUpdate(query.createWPKQuery(tableName, settings));
     }
 
@@ -114,7 +115,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
     }
 
     @Override
-    public void insert(String tableName, ArrayList<String[]> nameDate, boolean idKey) throws SQLException, NullPointerException{
+    public void insert(String tableName, List<String[]> nameDate, boolean idKey) throws SQLException, NullPointerException{
         statExecUpdate(query.insertQuery(tableName, nameDate, idKey));
     }
 
@@ -128,12 +129,12 @@ public class  JDBCDatabaseManager implements DatabaseManager{
     }
 
     @Override
-    public Table readSet(String tableName, ArrayList<String[]> settings) throws SQLException, NullPointerException {
+    public Table readSet(String tableName, List<String[]> settings) throws SQLException, NullPointerException {
         return getTableHelper(tableName, getColumnData(tableName), query.readSetQuery(tableName, settings));
     }
 
     @Override
-    public void update(String tableName, ArrayList<String[]> howUpdate, ArrayList<String[]> forUpdate)throws SQLException, NullPointerException {
+    public void update(String tableName, List<String[]> howUpdate, List<String[]> forUpdate)throws SQLException, NullPointerException {
         statExecUpdate(query.updateQuery(tableName, howUpdate, forUpdate));
     }
 
@@ -143,7 +144,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
     }
 
     @Override
-    public void delete(String tableName, ArrayList<String[]> settings)  throws SQLException, NullPointerException{
+    public void delete(String tableName, List<String[]> settings)  throws SQLException, NullPointerException{
         statExecUpdate(query.deleteQuery(tableName, settings));
     }
 
@@ -189,7 +190,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
         }
     }
 
-    private void sortHelper(ArrayList<ColumnData> columnDatas, ResultSet resultSet) throws SQLException, NullPointerException {
+    private void sortHelper(List<ColumnData> columnDatas, ResultSet resultSet) throws SQLException, NullPointerException {
 
         while (resultSet.next()){
             for(int index = 0; index < columnDatas.size(); index++){
@@ -201,7 +202,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
         }
     }
 
-    private void resultSetGetHelper(ArrayList<ColumnData> columnDatas, ResultSet resultSet) throws SQLException, NullPointerException {
+    private void resultSetGetHelper(List<ColumnData> columnDatas, ResultSet resultSet) throws SQLException, NullPointerException {
 
         while (resultSet.next()){
 
@@ -220,7 +221,7 @@ public class  JDBCDatabaseManager implements DatabaseManager{
         }
     }
 
-    private Table getTableHelper(String tableName, ArrayList<ColumnData> columnDatas, String query) throws SQLException, NullPointerException{
+    private Table getTableHelper(String tableName, List<ColumnData> columnDatas, String query) throws SQLException, NullPointerException{
 
         try(Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query))
@@ -230,9 +231,9 @@ public class  JDBCDatabaseManager implements DatabaseManager{
         }
     }
 
-    private ArrayList<ColumnData> getColumnData(String tableName) throws SQLException, NullPointerException {
+    private List<ColumnData> getColumnData(String tableName) throws SQLException, NullPointerException {
 
-        ArrayList<String> columnNames = getColumnNames(tableName).getTableData().get(0).getValue();
+        List<String> columnNames = getColumnNames(tableName).getTableData().get(0).getValue();
         ArrayList<ColumnData> columnDatas = new ArrayList<>();
         for (int i = 0; i < columnNames.size(); i++) {
             ColumnData temp = new ColumnData(columnNames.get(i), new ArrayList<>());
@@ -241,8 +242,8 @@ public class  JDBCDatabaseManager implements DatabaseManager{
         return columnDatas;
     }
 
-    private ArrayList<String> getContent() throws SQLException, NullPointerException {
-        ArrayList<String> temp = new ArrayList<>();
+    private List<String> getContent() throws SQLException, NullPointerException {
+        List<String> temp = new ArrayList<>();
 
         Table contains = getTableNames();
         for (int index = 0; index < contains.getTableData().get(0).getValue().size(); index++) {
@@ -251,8 +252,8 @@ public class  JDBCDatabaseManager implements DatabaseManager{
         return temp;
     }
 
-    private ArrayList<ColumnData> getDataRead(ResultSet resultSet, ResultSetMetaData rsMetaData, int lengthOfCol) throws SQLException {
-        ArrayList<ColumnData> columnData = new ArrayList<>();
+    private List<ColumnData> getDataRead(ResultSet resultSet, ResultSetMetaData rsMetaData, int lengthOfCol) throws SQLException {
+        List<ColumnData> columnData = new ArrayList<>();
 
         for (int i = 0; i < lengthOfCol; i++) {
             String columnName = rsMetaData.getColumnName(i + 1);

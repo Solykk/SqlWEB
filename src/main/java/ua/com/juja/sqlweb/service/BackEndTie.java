@@ -29,19 +29,19 @@ public interface BackEndTie {
 
     void fileTable(String fileName, Table table, String path) throws IOException;
 
-    Table findSettings(DatabaseManager manager, String tableName,  ArrayList<String[]> settings) throws SQLException;
+    Table findSettings(DatabaseManager manager, String tableName,  List<String[]> settings) throws SQLException;
 
     void clear(DatabaseManager manager, String tableName) throws SQLException;
 
-    void create(DatabaseManager manager, String tableName, ArrayList<String> settings, String columnNamePK, Long startWith) throws SQLException;
+    void create(DatabaseManager manager, String tableName, List<String> settings, String columnNamePK, Long startWith) throws SQLException;
 
-    void delete(DatabaseManager manager, String tableName, ArrayList<String[]> settings) throws SQLException;
+    void delete(DatabaseManager manager, String tableName, List<String[]> settings) throws SQLException;
 
     void drop(DatabaseManager manager, String tableName) throws SQLException;
 
-    void insert(DatabaseManager manager, String tableName, ArrayList<String[]> settings, boolean isKey) throws SQLException;
+    void insert(DatabaseManager manager, String tableName, List<String[]> settings, boolean isKey) throws SQLException;
 
-    void update(DatabaseManager manager, String tableName, ArrayList<String[]> forUpdate, ArrayList<String[]> howUpdate) throws SQLException;
+    void update(DatabaseManager manager, String tableName, List<String[]> forUpdate, List<String[]> howUpdate) throws SQLException;
 
     Table readQuery(DatabaseManager manager, String query) throws SQLException;
 

@@ -1,7 +1,7 @@
 package ua.com.juja.sqlweb.model;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface DatabaseManager {
 
@@ -13,16 +13,16 @@ public interface DatabaseManager {
     Table getTypeColumn(String tableName, String columnName)  throws SQLException, NullPointerException;
 
     void createCreatePK(String tableName, String columnNamePK)throws SQLException, NullPointerException, NumberFormatException;
-    void createWithoutPK(String tableName, ArrayList<String> settings)throws SQLException, NullPointerException;
+    void createWithoutPK(String tableName, List<String> settings)throws SQLException, NullPointerException;
     void createSequencePK(String tableName, Long startWith)throws SQLException, NullPointerException, NumberFormatException;
 
     Table read(String tableName) throws SQLException, NullPointerException;
-    Table readSet(String tableName, ArrayList<String[]> settings) throws SQLException, NullPointerException;
+    Table readSet(String tableName, List<String[]> settings) throws SQLException, NullPointerException;
 
-    void insert(String tableName, ArrayList<String[]> nameDate, boolean isKey) throws SQLException, NullPointerException;
-    void update(String tableName, ArrayList<String[]> forUpdate, ArrayList<String[]> howUpdate)throws SQLException, NullPointerException;
+    void insert(String tableName, List<String[]> nameDate, boolean isKey) throws SQLException, NullPointerException;
+    void update(String tableName, List<String[]> forUpdate, List<String[]> howUpdate)throws SQLException, NullPointerException;
     void drop(String tableName) throws SQLException, NullPointerException;
-    void delete(String tableName, ArrayList<String[]> settings)  throws SQLException, NullPointerException;
+    void delete(String tableName, List<String[]> settings)  throws SQLException, NullPointerException;
     void clear(String tableName)throws SQLException, NullPointerException;
 
     void cudQuery(String query)throws SQLException, NullPointerException;

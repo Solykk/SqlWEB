@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <html>
     <head>
         <title>Tables</title>
+        <link rel="icon" type="image/x-icon"
+              href="<s:url value="resources/dalek.png"/>" />
     </head>
     <body>
         <form action="tables" method="get">

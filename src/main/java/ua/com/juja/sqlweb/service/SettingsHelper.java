@@ -2,19 +2,19 @@ package ua.com.juja.sqlweb.service;
 
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class SettingsHelper {
 
-    private void toSettings(String[] data, ArrayList<String[]> settings, int index) {
+    private void toSettings(String[] data, List<String[]> settings, int index) {
         String[] tmp = new String[2];
         tmp[0] = data[index];
         tmp[1] = data[index + 1];
         settings.add(tmp);
     }
 
-    public ArrayList<String[]> addSettings(String[] data, ArrayList<String[]> settings) {
+    public List<String[]> addSettings(String[] data, List<String[]> settings) {
         int index = 0;
         String temp = "";
         if(settings.size() == 1){

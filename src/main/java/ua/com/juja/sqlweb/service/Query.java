@@ -4,18 +4,19 @@ import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.model.ColumnData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class Query {
 
-    public String insertQuery(String tableName, ArrayList<String[]> nameDate, boolean idKey){
+    public String insertQuery(String tableName, List<String[]> nameDate, boolean idKey){
         String columnNames = getName(nameDate);
         String values = getValue(tableName, nameDate, idKey);
 
         return  "INSERT INTO " + tableName + " ( " + columnNames + " ) VALUES ( " + values + " )";
     }
 
-    private String getValue(String tableName, ArrayList<String[]> nameDate, boolean idKey) {
+    private String getValue(String tableName, List<String[]> nameDate, boolean idKey) {
         String values = "";
         if(idKey) {
             for (int index = 0; index < nameDate.size(); index++) {
@@ -44,7 +45,7 @@ public class Query {
         return values;
     }
 
-    private String getName(ArrayList<String[]> nameDate) {
+    private String getName(List<String[]> nameDate) {
         String columnNames = "";
         for (int index = 0; index < nameDate.size(); index++){
 
@@ -64,7 +65,7 @@ public class Query {
         return "ALTER TABLE " + tableName + " ADD (CONSTRAINT " +  tableName + "_PK PRIMARY KEY (" + columnNamePK + "))";
     }
 
-    public String createWPKQuery(String tableName, ArrayList<String> settings){
+    public String createWPKQuery(String tableName, List<String> settings){
         String postQuery = "";
         for (int i = 0; i < settings.size() ; i++) {
             if(i == settings.size() - 1) {
@@ -76,14 +77,14 @@ public class Query {
         return  "CREATE TABLE " + tableName + " (" + postQuery + " )";
     }
 
-    public String updateQuery(String tableName, ArrayList<String[]> howUpdate, ArrayList<String[]> forUpdate){
+    public String updateQuery(String tableName, List<String[]> howUpdate, List<String[]> forUpdate){
         String perQuery = generateQueryComaString(howUpdate);
         String postQuery = generateQueryAndString(forUpdate);
 
         return  "UPDATE " + tableName +  " SET " + perQuery + " WHERE " + postQuery;
     }
 
-    private String generateQueryComaString(ArrayList<String[]> settings) {
+    private String generateQueryComaString(List<String[]> settings) {
 
         String query = "";
 
@@ -97,7 +98,7 @@ public class Query {
         return query;
     }
 
-    private String generateQueryAndString(ArrayList<String[]> settings) {
+    private String generateQueryAndString(List<String[]> settings) {
 
         String query = "";
 
@@ -111,12 +112,12 @@ public class Query {
         return query;
     }
 
-    public String deleteQuery(String tableName, ArrayList<String[]> settings){
+    public String deleteQuery(String tableName, List<String[]> settings){
         String postQuery = generateQueryAndString(settings);
         return "DELETE FROM " +  tableName + " WHERE " + postQuery;
     }
 
-    public String readSetQuery(String tableName, ArrayList<String[]> settings){
+    public String readSetQuery(String tableName, List<String[]> settings){
         String postQuery = generateQueryAndString(settings);
         return  "SELECT * FROM " + tableName +  " WHERE " + postQuery;
     }
@@ -126,8 +127,8 @@ public class Query {
                 + "'" + tableName+ "' AND COLUMN_NAME = " + "'" + columnName + "'";
     }
 
-    public ArrayList<ColumnData> columnData() {
-        ArrayList<ColumnData> columnDatas = new ArrayList<>();
+    public List<ColumnData> columnData() {
+        List<ColumnData> columnDatas = new ArrayList<>();
         columnDatas.add(new ColumnData("COLUMN_NAME", new ArrayList<>()));
         columnDatas.add(new ColumnData("DATA_TYPE", new ArrayList<>()));
         columnDatas.add(new ColumnData("NULLABLE", new ArrayList<>()));
@@ -143,8 +144,8 @@ public class Query {
         return "SELECT TABLE_NAME FROM user_tables";
     }
 
-    public ArrayList<ColumnData> tableNameRes() {
-        ArrayList<ColumnData> columnData = new ArrayList<>();
+    public List<ColumnData> tableNameRes() {
+        List<ColumnData> columnData = new ArrayList<>();
         columnData.add(new ColumnData("TABLE_NAME", new ArrayList<>()));
         return columnData;
     }
@@ -161,8 +162,8 @@ public class Query {
         return "DROP TABLE " + tableName;
     }
 
-    public ArrayList<ColumnData> columnNameRes() {
-        ArrayList<ColumnData> columnDatas = new ArrayList<>();
+    public List<ColumnData> columnNameRes() {
+        List<ColumnData> columnDatas = new ArrayList<>();
         columnDatas.add(new ColumnData("COLUMN_NAME", new ArrayList<>()));
         return columnDatas;
     }
