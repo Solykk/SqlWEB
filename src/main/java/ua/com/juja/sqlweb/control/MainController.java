@@ -1,7 +1,12 @@
 package ua.com.juja.sqlweb.control;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,6 +27,10 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
+@Configuration
+//@ImportResource("/WEB-INF/application-context.xml")
+@ComponentScan(basePackages = "ua.com.juja.sqlweb")
+@SpringBootApplication
 public class MainController {
 
     @Autowired
@@ -33,6 +42,10 @@ public class MainController {
     @Autowired
     private CommandsList commandsList;
 
+    public static void main(String[] args){
+        SpringApplication.run(MainController.class, args);
+    }
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(HttpServletRequest req) {
         if(manager == null || !manager.isConnect()){
@@ -42,12 +55,12 @@ public class MainController {
         }
         req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
-        return "index";
+        return "redirect:/resources/templates/index.jsp";
     }
 
     @RequestMapping(value = "/Connect", method = RequestMethod.GET)
     public String connect() {
-        return "connect";
+        return "/resources/templates/connect.jsp";
     }
 
     @RequestMapping(value = "/connect", method = RequestMethod.POST)
@@ -62,7 +75,7 @@ public class MainController {
             return "redirect:index";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
@@ -71,10 +84,10 @@ public class MainController {
         try {
             Table table = manager.getTableNames();
             req.getSession().setAttribute("table", table);
-            return "tables";
+            return "/resources/templates/tables.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
@@ -82,7 +95,7 @@ public class MainController {
     public String columns(HttpServletRequest req) {
         req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
-        return "columns";
+        return "/resources/templates/columns.jsp";
     }
 
     @RequestMapping(value = "/columns", method = RequestMethod.POST)
@@ -93,10 +106,10 @@ public class MainController {
             Table table = manager.getColumnNames(tableName);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
-            return "columns";
+            return "/resources/templates/columns.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
@@ -104,7 +117,7 @@ public class MainController {
     public String tableType(HttpServletRequest req) {
         req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
-        return "tabletype";
+        return "/resources/templates/tabletype.jsp";
     }
 
     @RequestMapping(value = "/tabletype", method = RequestMethod.POST)
@@ -115,10 +128,10 @@ public class MainController {
             Table table = manager.getAllTypeColumns(tableName);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
-            return "tabletype";
+            return "/resources/templates/tabletype.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
@@ -126,7 +139,7 @@ public class MainController {
     public String columnType(HttpServletRequest req) {
         req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
-        return "columntype";
+        return "/resources/templates/columntype.jsp";
     }
 
     @RequestMapping(value = "/columnType", method = RequestMethod.POST)
@@ -138,10 +151,10 @@ public class MainController {
             Table table = manager.getTypeColumn(tableName, columnName);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
-            return "columntype";
+            return "/resources/templates/columntype.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
@@ -149,7 +162,7 @@ public class MainController {
     public String find(HttpServletRequest req) {
         req.getSession().removeAttribute("table");
         req.getSession().removeAttribute("count");
-        return "find";
+        return "/resources/templates/find.jsp";
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.POST)
@@ -160,17 +173,17 @@ public class MainController {
             Table table = manager.read(tableName);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
-            return "find";
+            return "/resources/templates/find.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
     @RequestMapping(value = "/FileTable", method = RequestMethod.GET)
     public String fileTable(HttpServletRequest req) {
         req.getSession().removeAttribute("count");
-        return "filetable";
+        return "/resources/templates/filetable.jsp";
     }
 
     @RequestMapping(value = "/fileTable", method = RequestMethod.POST)
@@ -182,23 +195,23 @@ public class MainController {
         try {
             fileTable(fileName, table, absolutePath);
             req.getSession().removeAttribute("table");
-            return "find";
+            return "/resources/templates/find.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
     @RequestMapping(value = "/FSettings", method = RequestMethod.GET)
     public String findSettings() {
-        return "findsettings";
+        return "/resources/templates/findsettings.jsp";
     }
 
     @RequestMapping(value = "/fSettings", method = RequestMethod.POST)
     public String findSettingsP(HttpServletRequest req) {
         if(req.getParameter("add") != null){
             addInput(req, 2);
-            return "findsettings";
+            return "/resources/templates/findsettings.jsp";
         }
 
         String tableName = req.getParameter("TableName");
@@ -214,16 +227,16 @@ public class MainController {
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
             req.getSession().removeAttribute("count");
-            return "findsettings";
+            return "/resources/templates/findsettings.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
     @RequestMapping(value = "/Clear", method = RequestMethod.GET)
     public String clear() {
-        return "clear";
+        return "/resources/templates/clear.jsp";
     }
 
     @RequestMapping(value = "/clear", method = RequestMethod.POST)
@@ -231,23 +244,23 @@ public class MainController {
         String tableName = req.getParameter("TableName");
         try {
             manager.clear(tableName);
-            return "clear";
+            return "/resources/templates/clear.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
     @RequestMapping(value = "/Create", method = RequestMethod.GET)
     public String create() {
-        return "create";
+        return "/resources/templates/create.jsp";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createP(HttpServletRequest req) {
         if(req.getParameter("add") != null){
             addInput(req, 1);
-            return "create";
+            return "/resources/templates/create.jsp";
         }
 
         String tableName = req.getParameter("TableName");
@@ -284,23 +297,23 @@ public class MainController {
         try {
             create(tableName, settings, columnNamePK, startWith);
             req.getSession().removeAttribute("count");
-            return "create";
+            return "/resources/templates/create.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
     @RequestMapping(value = "/Delete", method = RequestMethod.GET)
     public String delete() {
-        return "delete";
+        return "/resources/templates/delete.jsp";
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String deleteP(HttpServletRequest req) {
         if(req.getParameter("add") != null){
             addInput(req, 2);
-            return "delete";
+            return "/resources/templates/delete.jsp";
         }
 
         String[] array = req.getParameterValues("settings[]");
@@ -314,16 +327,16 @@ public class MainController {
         try {
             manager.delete(tableName,settings);
             req.getSession().removeAttribute("count");
-            return "delete";
+            return "/resources/templates/delete.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
     @RequestMapping(value = "/Drop", method = RequestMethod.GET)
     public String drop() {
-        return "drop";
+        return "/resources/templates/drop.jsp";
     }
 
     @RequestMapping(value = "/drop", method = RequestMethod.POST)
@@ -331,23 +344,23 @@ public class MainController {
         String tableName = req.getParameter("TableName");
         try {
             manager.drop(tableName);
-            return "drop";
+            return "/resources/templates/drop.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
     @RequestMapping(value = "/Insert", method = RequestMethod.GET)
     public String insert() {
-        return "insert";
+        return "/resources/templates/insert.jsp";
     }
 
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public String insertP(HttpServletRequest req) {
         if(req.getParameter("add") != null){
             addInput(req, 2);
-            return "insert";
+            return "/resources/templates/insert.jsp";
         }
 
         String tableName = req.getParameter("TableName");
@@ -371,23 +384,23 @@ public class MainController {
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
             req.getSession().removeAttribute("count");
-            return "insert";
+            return "/resources/templates/insert.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
     @RequestMapping(value = "/Update", method = RequestMethod.GET)
     public String update() {
-        return "update";
+        return "/resources/templates/update.jsp";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateP(HttpServletRequest req) {
         if(req.getParameter("add") != null){
             addInput(req, 2);
-            return "update";
+            return "/resources/templates/update.jsp";
         }
 
         String tableName = req.getParameter("TableName");
@@ -410,10 +423,10 @@ public class MainController {
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
             req.getSession().removeAttribute("count");
-            return "update";
+            return "/resources/templates/update.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
@@ -421,7 +434,7 @@ public class MainController {
     public String readQuery(HttpServletRequest req) {
         req.getSession().removeAttribute("count");
         req.getSession().removeAttribute("table");
-        return "readquery";
+        return "/resources/templates/readquery.jsp";
     }
 
     @RequestMapping(value = "/readquery", method = RequestMethod.POST)
@@ -432,16 +445,16 @@ public class MainController {
             Table table = manager.readQuery(readQuery);
             req.getSession().setAttribute("table", table);
             req.setAttribute("table", table);
-            return "readquery";
+            return "/resources/templates/readquery.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
     @RequestMapping(value = "/CudQuery", method = RequestMethod.GET)
     public String cudQuery() {
-        return "cudquery";
+        return "/resources/templates/cudquery.jsp";
     }
 
     @RequestMapping(value = "/cudquery", method = RequestMethod.POST)
@@ -450,16 +463,16 @@ public class MainController {
 
         try {
             manager.cudQuery(cudQuery);
-            return "index";
+            return "/resources/templates/index.jsp";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
-            return "error";
+            return "/resources/templates/error.jsp";
         }
     }
 
     @RequestMapping(value = "/error",  method = RequestMethod.GET)
     public String error() {
-        return "error";
+        return "/resources/templates/error.jsp";
     }
 
     private void addInput(HttpServletRequest req, Integer counter){
