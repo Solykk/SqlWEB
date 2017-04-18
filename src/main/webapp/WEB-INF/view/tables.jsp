@@ -4,8 +4,6 @@
 <html>
 <head>
     <title>Tables</title>
-    <link rel="icon" type="image/x-icon"
-          href="<s:url value="resources/dalek.png"/>"/>
 </head>
 <body>
 <c:choose>

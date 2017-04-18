@@ -9,7 +9,7 @@
     <table>
         <tr>
             <td>Table Name</td>
-            <td><input type="text" name="TableName"/></td>
+            <td><input type="text" name="TableName""/></td>
         </tr>
         <tr>
             <td></td>

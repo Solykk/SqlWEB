@@ -9,22 +9,22 @@
     <table>
         <tr>
             <td>Table Name</td>
-            <td><input type="text" name="TableName"/></td>
+            <td><input type="text" name="TableName" value="${TableName}"/></td>
         </tr>
     </table>
 <table>
-        <c:forEach items="${inputVal}" var="inputs">
+        <c:forEach items="${inputVal}" var="inputs" >
             <c:choose>
                 <c:when test="${inputs%2 == 0}">
                     <tr>
                         <td>Column Name</td>
-                        <td><input type="text" name="settings[]" /></td>
+                        <td><input type="text" name="settings[]" value="${settings[inputs]}"/></td>
                             </tr>
                 </c:when>
                 <c:otherwise>
                     <tr>
                         <td>Value</td>
-                        <td><input type="text" name="settings[]" /></td>
+                        <td><input type="text" name="settings[]" value="${settings[inputs]}"/></td>
                     </tr>
                 </c:otherwise>
             </c:choose>

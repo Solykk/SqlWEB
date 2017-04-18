@@ -1,10 +1,14 @@
 package ua.com.juja.sqlweb.control;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ua.com.juja.sqlweb.model.DatabaseManager;
 import ua.com.juja.sqlweb.model.Table;
 import ua.com.juja.sqlweb.service.Services;
@@ -12,6 +16,7 @@ import ua.com.juja.sqlweb.service.SettingsHelper;
 import ua.com.juja.sqlweb.service.TableToString;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -22,6 +27,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
+@Configuration
+@EnableWebMvc
 public class MainController {
 
     @Autowired
@@ -35,7 +42,7 @@ public class MainController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(HttpServletRequest req) {
-        if(manager == null || !manager.isConnect()){
+          if(manager == null || !manager.isConnect()){
             req.setAttribute("items", Arrays.asList(commandsList.getCommands().get(0)));
         } else {
             req.setAttribute("items", commandsList.getCommands());
@@ -67,10 +74,12 @@ public class MainController {
     }
 
     @RequestMapping(value = "/Tables", method = RequestMethod.GET)
-    public String tables(HttpServletRequest req) {
+    public String tables(HttpServletRequest req, Model model, HttpSession session) {
         try {
             Table table = manager.getTableNames();
-            req.getSession().setAttribute("table", table);
+//            req.getSession().setAttribute("table", table);
+            session.setAttribute("table", table);
+            model.addAttribute("table", table);
             return "tables";
         } catch (Exception e) {
             req.setAttribute("message", e.getMessage());
@@ -174,10 +183,11 @@ public class MainController {
     }
 
     @RequestMapping(value = "/fileTable", method = RequestMethod.POST)
-    public String fileTableP(HttpServletRequest req) {
+    public String fileTableP(HttpServletRequest req, @ModelAttribute(value = "table") Table table) {
         String fileName = req.getParameter("FileName");
         String absolutePath = req.getParameter("AbsolutePath");
-        Table table = (Table) req.getSession().getAttribute("table");
+//        Table table = (Table) req.getSession().getAttribute("table");
+//        Table table = (Table) req.getSession().getAttribute("table");
 
         try {
             fileTable(fileName, table, absolutePath);
@@ -472,6 +482,9 @@ public class MainController {
         for (int i = 0; i < count; i++){
                 array.add(i);
         }
+        String [] arrayL = req.getParameterValues("settings[]");
+        req.setAttribute("settings", arrayL);
+        req.setAttribute("TableName", req.getParameter("TableName"));
         req.setAttribute("inputVal", array);
     }
 
