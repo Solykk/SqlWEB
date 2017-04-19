@@ -1,6 +1,8 @@
 package ua.com.juja.sqlweb.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.stereotype.Component;
 import ua.com.juja.sqlweb.service.Query;
 
@@ -16,6 +18,10 @@ public class  JDBCDatabaseManager implements DatabaseManager{
 
     public JDBCDatabaseManager(){
         Locale.setDefault(Locale.ENGLISH);
+    }
+
+    public JDBCDatabaseManager(Query query){
+        this.query = new Query();
     }
 
     @Autowired

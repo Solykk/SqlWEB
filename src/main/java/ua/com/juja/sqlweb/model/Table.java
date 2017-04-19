@@ -2,6 +2,7 @@ package ua.com.juja.sqlweb.model;
 
 import java.util.List;
 
+
 public class Table {
 
     private String tableName;

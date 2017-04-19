@@ -25,7 +25,7 @@ public class QueryTest {
         settings.add(new String[]{"TEST1", "35"});
         settings.add(new String[]{"TEST2", "World"});
 
-        assertEquals("INSERT INTO FIRST( TEST, TEST1, TEST2) VALUES ( FIRST_SEQ.nextval, 35, World )",
+        assertEquals("INSERT INTO FIRST ( TEST, TEST1, TEST2 ) VALUES ( FIRST_SEQ.nextval, 35, World )",
                     query.insertQuery("FIRST", settings, true));
 
     }
@@ -38,7 +38,7 @@ public class QueryTest {
         settings.add(new String[]{"TEST1", "35"});
         settings.add(new String[]{"TEST2", "World"});
 
-        assertEquals("INSERT INTO FIRST( TEST, TEST1, TEST2) VALUES ( 'Hello', 35, World )",
+        assertEquals("INSERT INTO FIRST ( TEST, TEST1, TEST2 ) VALUES ( 'Hello', 35, World )",
                 query.insertQuery("FIRST", settings, false));
 
     }
